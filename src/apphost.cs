@@ -4,9 +4,12 @@
 #:project ./Flyio.Demo.Web/Flyio.Demo.Web.csproj
 #:project ./Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj
 
+#:package Aspire.Hosting.Docker
 #:package Aspire.Hosting.Keycloak
 
 var builder = DistributedApplication.CreateBuilder(args);
+
+var compose = builder.AddDockerComposeEnvironment("compose");
 
 var username = builder.AddParameter("username", "admin");
 var password = builder.AddParameter("password", "admin");
