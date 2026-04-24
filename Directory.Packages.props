@@ -15,8 +15,7 @@
   </ItemGroup>
   <!-- Aspire -->
   <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.5.1" />
-    <PackageVersion Include="Aspire.Hosting.Keycloak" Version="9.4.0-preview.1.25378.8" />
+    <PackageVersion Include="Aspire.Hosting.Keycloak" Version="13.2.3-preview.1.26217.6" />
   </ItemGroup>
   <!-- Microsoft -->
   <ItemGroup>
