@@ -1,3 +1,11 @@
+#:sdk Aspire.AppHost.Sdk@13.2.0
+#:property UserSecretsId=118ee23f-c5d9-4935-96c9-4991c066cb88
+
+#:project ./Flyio.Demo.Web/Flyio.Demo.Web.csproj
+#:project ./Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj
+
+#:package Aspire.Hosting.Keycloak
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var username = builder.AddParameter("username", "admin");
