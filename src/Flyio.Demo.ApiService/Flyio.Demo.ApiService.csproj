@@ -6,6 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Flyio.Demo.ServiceDefaults\Flyio.Demo.ServiceDefaults.csproj" />
+    <PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
   </ItemGroup>
 </Project>

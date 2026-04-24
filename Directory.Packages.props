@@ -8,6 +8,8 @@
     <GlobalPackageReference Include="MinVer" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.0.2" />
+    <PackageVersion Include="AlefCarlos.AspNetCoreDefaults" Version="1.0.2" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
     <PackageVersion Include="Steeltoe.Configuration.ConfigServer" Version="4.1.0" />

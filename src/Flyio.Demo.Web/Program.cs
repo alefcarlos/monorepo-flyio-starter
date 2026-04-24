@@ -5,9 +5,6 @@ var builder = WebApplication.CreateBuilder(args)
     .AddDefaults()
     ;
 
-// Add service defaults & Aspire client integrations.
-builder.AddServiceDefaults();
-
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
@@ -39,6 +36,6 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.MapHealthChecksEndpointWithDefaults();
+app.MapDefaultEndpoints();
 
 app.Run();
