@@ -1,8 +1,36 @@
 using Microsoft.AspNetCore.HttpLogging;
+using FluentValidation;
+using Flyio.Demo.ApiService.Endpoints;
+using Flyio.Demo.ApiService.Infra;
+using Flyio.Demo.ApiService.UseCases;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
     ;
+
+builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(opt => opt.UseInMemoryDatabase("db"));
+
+builder.Services.AddValidation();
+
+builder.Services.AddMediator(options =>
+{
+    //options.Telemetry.EnableMetrics = true;
+    //options.Telemetry.EnableTracing = true;
+    options.ServiceLifetime = ServiceLifetime.Scoped;
+
+    // Supply any TYPE from each assembly you want scanned (the generator finds the assembly from the type)
+    options.Assemblies =
+    [
+        typeof(IApiMarker),
+    ];
+});
+
+//builder.Services.AddOpenTelemetry()
+//    .WithMetrics(metrics => metrics.AddMeter(Mediator.Mediator.MeterName))
+//    .WithTracing(tracing => tracing.AddSource(Mediator.Mediator.ActivitySourceName));
+
+builder.Services.AddValidatorsFromAssemblies([typeof(IApiMarker).Assembly]);
 
 builder.Services.Configure<HttpLoggingOptions>(options =>
 {
@@ -55,9 +83,13 @@ app.MapGet("/authenticated-ping", () =>
 .RequireAuthorization()
 ;
 
+app.MapTodoEndpoints();
+
 await app.RunAsync();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
+
+interface IApiMarker;

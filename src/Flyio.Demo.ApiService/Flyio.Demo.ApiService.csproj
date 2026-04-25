@@ -1,11 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-    <FlyAppName>apiservice</FlyAppName>
+	<PropertyGroup>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<FlyAppName>apiservice</FlyAppName>
+	  <UserSecretsId>4f20d749-54e9-4eb6-a393-79dce620b5b0</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
+		<PackageReference Include="Ardalis.Result.AspNetCore" />
+		<PackageReference Include="Ardalis.Result.FluentValidation" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+		<PackageReference Include="Mediator.Abstractions" />
+		<PackageReference Include="Mediator.SourceGenerator">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+	</ItemGroup>
 </Project>
