@@ -4,6 +4,7 @@ using Flyio.Demo.ApiService.Endpoints;
 using Flyio.Demo.ApiService.Infra;
 using Flyio.Demo.ApiService.UseCases;
 using Microsoft.EntityFrameworkCore;
+using Flyio.Demo.ApiService;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
@@ -52,16 +53,9 @@ app.UseProblemDetailsWithDefaults();
 
 app.MapDefaultWebApiEndpoints();
 
-app.MapGet("/setting", (IConfiguration configuration, string key) =>
-{
-    return configuration[key];
-});
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapTodoEndpoints();
 
 await app.RunAsync();
-
-interface IApiMarker;

@@ -1,6 +1,7 @@
 using AlefCarlos.AspNetCoreDefaults.WebApi;
 using Flyio.Demo.ApiService.Endpoints.Responses;
 using Flyio.Demo.ApiService.UseCases;
+using Flyio.Demo.ApiService.UseCases.Get;
 using Flyio.Demo.ApiService.UseCases.GetAll;
 using Mediator;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -24,10 +25,10 @@ public static class Extensions
         return result.ToOkOnlyResult((list) => list.Select(TodoResponse.FromEntity));
     }
 
-    // private static async ValueTask<Results<Ok<TodoResponse>, NotFound, ProblemHttpResult>> GetByIdAsync(IMediator mediator, Guid id)
-    // {
-    //     var result = await mediator.Send(new GetTodoQuery(new(id)));
+    private static async ValueTask<Results<Ok<TodoResponse>, NotFound, ProblemHttpResult>> GetByIdAsync(IMediator mediator, Guid id)
+    {
+        var result = await mediator.Send(new GetTodoQuery(new(id)));
 
-    //     return result.ToGetByIdResult(TodoResponse.FromEntity);
-    // }
+        return result.ToGetByIdResult(TodoResponse.FromEntity);
+    }
 }
