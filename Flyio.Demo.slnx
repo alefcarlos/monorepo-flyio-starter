@@ -1,7 +1,7 @@
 <Solution>
-  <Folder Name="/src/">
-    <File Path="src/apphost.cs" />
-    <File Path="src/apphost.run.json" />
+  <Folder Name="/aspire/">
+    <File Path="apphost.cs" />
+    <File Path="apphost.run.json" />
   </Folder>
   <Project Path="src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj" />
   <Project Path="src/Flyio.Demo.ServiceDefaults/Flyio.Demo.ServiceDefaults.csproj" />
