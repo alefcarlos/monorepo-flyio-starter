@@ -14,7 +14,7 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
         <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
-		<NuGetAuditMode>direct</NuGetAuditMode>
+		<NuGetAuditMode>all</NuGetAuditMode>
     </PropertyGroup>
 
     <ItemGroup>
