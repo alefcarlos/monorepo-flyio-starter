@@ -8,4 +8,7 @@
     <Project Path="src/Flyio.Demo.ServiceDefaults/Flyio.Demo.ServiceDefaults.csproj" />
     <Project Path="src/Flyio.Demo.Web/Flyio.Demo.Web.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Flyio.Demo.ApiService.Tests/Flyio.Demo.ApiService.Tests.csproj" />
+  </Folder>
 </Solution>

@@ -1,0 +1,115 @@
+using AwesomeAssertions;
+using Flyio.Demo.ApiService.Entities;
+using Flyio.Demo.ApiService.UseCases;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using MockQueryable.NSubstitute;
+using NSubstitute;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
+
+namespace Flyio.Demo.ApiService.Tests.Endpoints.GetTodo;
+
+public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
+{
+    private readonly WebApplicationFactory<Program> _factory;
+
+    public EndpointsTests(WebApplicationFactory<Program> factory)
+    {
+        _factory = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureTestServices(services =>
+            {
+                services.Configure<AuthenticationOptions>(x => x.SchemeMap["Bearer"].HandlerType = typeof(ViewerAuthenticationHandler));
+            });
+        });
+    }
+
+    [Fact]
+    public async Task Reponse_ShouldBeOk_WithEmptyArray()
+    {
+        //Arrange
+        var mock = Substitute.For<IApplicationDbContext>();
+        var data = new List<TodoEntity>().BuildMockDbSet();
+
+        mock.Todos.Returns(data);
+
+        var client = _factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddScoped<IApplicationDbContext>((_) => mock);
+                });
+            })
+            .CreateClient();
+
+        //Act
+        var response = await client.GetAsync("/v1/todos", TestContext.Current.CancellationToken);
+        var reponseAsString = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+
+        //Assert
+        response.Should().Be200Ok();
+        reponseAsString.Should().Be("[]");
+    }
+
+    [Fact]
+    public async Task Reponse_ShouldBeOk_WithExpectedValues()
+    {
+        //Arrange
+        var mock = Substitute.For<IApplicationDbContext>();
+        var data = new List<TodoEntity>()
+        {
+            new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290305")), Name ="Name" },
+            new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290306")), Name ="Nam2" },
+        }.BuildMockDbSet();
+
+        mock.Todos.Returns(data);
+
+        var client = _factory
+            .WithWebHostBuilder(builder =>
+            {
+                builder.ConfigureTestServices(services =>
+                {
+                    services.AddScoped<IApplicationDbContext>((_) => mock);
+                });
+            })
+            .CreateClient();
+
+        //Act
+        var response = await client.GetAsync("/v1/todos", TestContext.Current.CancellationToken);
+        var reponseAsString = await response.Content.ReadAsStringAsync(TestContext.Current.CancellationToken);
+
+        //Assert
+        response.Should().Be200Ok();
+        reponseAsString.Should().Be("""[{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290305","name":"Name"},{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290306","name":"Nam2"}]""");
+    }
+
+    private class ViewerAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    {
+        public ViewerAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder)
+            : base(options, logger, encoder)
+        {
+        }
+
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        {
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Role, "apiservice:viewer")
+            };
+
+            var identity = new ClaimsIdentity(claims, "Bearer");
+            var principal = new ClaimsPrincipal(identity);
+            var ticket = new AuthenticationTicket(principal, "Bearer");
+
+            var result = AuthenticateResult.Success(ticket);
+
+            return Task.FromResult(result);
+        }
+    }
+}

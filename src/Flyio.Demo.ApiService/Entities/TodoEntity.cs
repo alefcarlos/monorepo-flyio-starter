@@ -8,10 +8,10 @@ public readonly record struct TodoId(Guid Value)
 
 public class TodoEntity
 {
-    public TodoId Id { get; private set; }
-    public string Name { get; private set; } = string.Empty;
+    public TodoId Id { get; internal set; }
+    public string Name { get; internal set; } = string.Empty;
 
-    private TodoEntity() { }
+    internal TodoEntity() { }
 
     public static TodoEntity CreateNew(string name)
     {
