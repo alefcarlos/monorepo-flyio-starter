@@ -5,6 +5,8 @@ using Flyio.Demo.ApiService.Infra;
 using Flyio.Demo.ApiService.UseCases;
 using Microsoft.EntityFrameworkCore;
 using Flyio.Demo.ApiService;
+using Microsoft.OpenApi;
+using Microsoft.AspNetCore.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()

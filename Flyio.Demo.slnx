@@ -3,7 +3,9 @@
     <File Path="apphost.cs" />
     <File Path="apphost.run.json" />
   </Folder>
-  <Project Path="src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj" />
-  <Project Path="src/Flyio.Demo.ServiceDefaults/Flyio.Demo.ServiceDefaults.csproj" />
-  <Project Path="src/Flyio.Demo.Web/Flyio.Demo.Web.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj" />
+    <Project Path="src/Flyio.Demo.ServiceDefaults/Flyio.Demo.ServiceDefaults.csproj" />
+    <Project Path="src/Flyio.Demo.Web/Flyio.Demo.Web.csproj" />
+  </Folder>
 </Solution>

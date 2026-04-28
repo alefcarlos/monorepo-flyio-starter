@@ -4,7 +4,7 @@ using Mediator;
 
 namespace Flyio.Demo.ApiService.UseCases.Create;
 
-public class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result>
+public class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<TodoId>>
 {
     private readonly IApplicationDbContext _dbContext;
 
@@ -13,13 +13,13 @@ public class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result>
         _dbContext = dbContext;
     }
 
-    public async ValueTask<Result> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Result<TodoId>> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
     {
         var entity = TodoEntity.CreateNew(command.Name);
 
         _dbContext.Todos.Add(entity);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Result.Created(Result.Success());
+        return Result.Created(Result.Success(entity.Id));
     }
 }

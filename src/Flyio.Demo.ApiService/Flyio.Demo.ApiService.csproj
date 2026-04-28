@@ -3,8 +3,7 @@
 	<PropertyGroup>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<FlyAppName>apiservice</FlyAppName>
-	  <UserSecretsId>4f20d749-54e9-4eb6-a393-79dce620b5b0</UserSecretsId>
-  </PropertyGroup>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AlefCarlos.AspNetCore.WebApi" />

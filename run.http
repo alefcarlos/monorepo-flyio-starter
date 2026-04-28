@@ -1,0 +1,27 @@
+# @name login
+
+POST http://localhost:8080/realms/local/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&client_id=demo-confidential
+&client_secret=secret
+
+###
+
+@token = {{login.response.body.$.access_token}} 
+
+###
+
+GET https://localhost:7386/v1/todos
+Authorization: Bearer {{token}}
+
+###
+
+POST https://localhost:7386/v1/todos
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "name": "aurora"
+}

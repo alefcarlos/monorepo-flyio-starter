@@ -15,10 +15,10 @@ public static class Extensions
         return endpoints;
     }
 
-    private static async ValueTask<Results<Created, ValidationProblem, ProblemHttpResult>> CreateAsync(IMediator mediator, [FromBody] CreateTodoRequest request)
+    private static async ValueTask<Results<Created<Guid>, ValidationProblem, ProblemHttpResult>> CreateAsync(IMediator mediator, [FromBody] CreateTodoRequest request)
     {
         var result = await mediator.Send(new CreateTodoCommand(request.Name));
 
-        return result.ToCreatedResult();
+        return result.ToCreatedResult((value) => $"/v1/todos/{value.Value}", (id) => id.Value);
     }
 }
