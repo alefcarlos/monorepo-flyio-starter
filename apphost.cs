@@ -1,4 +1,4 @@
-#:sdk Aspire.AppHost.Sdk@13.2.0
+#:sdk Aspire.AppHost.Sdk@13.2.4
 #:property UserSecretsId=118ee23f-c5d9-4935-96c9-4991c066cb88
 
 #:project ./src/Flyio.Demo.Web/Flyio.Demo.Web.csproj
