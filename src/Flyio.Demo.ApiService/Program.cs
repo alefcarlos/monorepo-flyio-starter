@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Flyio.Demo.ApiService;
 using Microsoft.OpenApi;
 using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
@@ -46,6 +47,8 @@ builder.Services.AddAuthentication()
     ;
 
 builder.Services.AddAuthorizationBuilder();
+
+builder.Services.AddTransient<IClaimsTransformation, KeycloakRolesClaimsTransformation>();
 
 var app = builder.Build();
 

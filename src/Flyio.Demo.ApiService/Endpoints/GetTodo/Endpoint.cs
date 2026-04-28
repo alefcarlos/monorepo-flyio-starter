@@ -12,8 +12,8 @@ public static class Extensions
 {
     public static IEndpointRouteBuilder MapGetTodo(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("{id:guid}", GetByIdAsync).RequireAuthorization(p => p.RequireRole("viewer"));
-        endpoints.MapGet("", GetAllAsync).RequireAuthorization(p => p.RequireRole("viewer"));
+        endpoints.MapGet("{id:guid}", GetByIdAsync).RequireAuthorization(p => p.RequireRole("apiservice:viewer"));
+        endpoints.MapGet("", GetAllAsync).RequireAuthorization(p => p.RequireRole("apiservice:viewer"));
 
         return endpoints;
     }
