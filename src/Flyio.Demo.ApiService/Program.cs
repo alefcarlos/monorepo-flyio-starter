@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
     ;
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(opt => opt.UseInMemoryDatabase("db"));
 
 builder.Services.AddValidation();

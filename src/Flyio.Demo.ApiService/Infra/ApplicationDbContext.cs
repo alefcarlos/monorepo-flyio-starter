@@ -13,6 +13,8 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     {
     }
 
+    public DbSet<AuditTrailEntity> AuditTrails { get; set; }
+
     public DbSet<TodoEntity> Todos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
