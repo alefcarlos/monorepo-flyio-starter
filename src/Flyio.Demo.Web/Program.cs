@@ -1,13 +1,18 @@
 using Flyio.Demo.Web;
 using Flyio.Demo.Web.Components;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddDefaults()
     ;
 
+builder.Services.AddUserSessionManagement();
+
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddRazorComponents();
 
 builder.Services.AddOutputCache();
 
@@ -23,19 +28,28 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    
+    //https://learn.microsoft.com/en-us/aspnet/core/security/data-protection/configuration/overview?view=aspnetcore-10.0#persisting-keys-when-hosting-in-a-docker-container
+    //Para ambiente produtivo É NECESSÁRIO CONFIGURAR AS CHAVES PARA SEREM PERSISTIDAS EXTERNAMENTE
+    // builder.Services.AddDataProtection()
+    //     .PersistKeysToDbContext<SampleDbContext>();
 }
 
-app.UseAntiforgery();
+app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 
 app.UseOutputCache();
 
 app.MapStaticAssets();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseAntiforgery();
+
+app.MapRazorComponents<App>();
 
 app.MapDefaultEndpoints();
+
+app.MapGroup("/authentication").MapLoginAndLogout();
 
 app.Run();

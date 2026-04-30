@@ -3,10 +3,13 @@
   <PropertyGroup>
     <FlyAppName>webfrontend</FlyAppName>
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AlefCarlos.AspNetCoreDefaults" />
+    <PackageReference Include="Duende.AccessTokenManagement.OpenIdConnect" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
   </ItemGroup>
 
 </Project>
