@@ -5,9 +5,8 @@ using Flyio.Demo.ApiService.Infra;
 using Flyio.Demo.ApiService.UseCases;
 using Microsoft.EntityFrameworkCore;
 using Flyio.Demo.ApiService;
-using Microsoft.OpenApi;
-using Microsoft.AspNetCore.OpenApi;
 using Microsoft.AspNetCore.Authentication;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
@@ -65,4 +64,24 @@ app.UseAuthorization();
 
 app.MapTodoEndpoints();
 
+app.MapGet("/heart-rate", (CancellationToken cancellationToken) =>
+{
+    static async IAsyncEnumerable<HeartRateRecord> GetDataAsync([EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            var rate = Random.Shared.Next(69, 120);
+            yield return HeartRateRecord.Create(rate);
+            await Task.Delay(1_000, cancellationToken);
+        }
+    }
+
+    return TypedResults.ServerSentEvents(GetDataAsync(cancellationToken), eventType: "heartRate");
+});
+
 await app.RunAsync();
+
+record HeartRateRecord(DateTimeOffset Timestamp, int HeartRate)
+{
+    public static HeartRateRecord Create(int heartRate) => new(DateTimeOffset.Now, heartRate);
+}

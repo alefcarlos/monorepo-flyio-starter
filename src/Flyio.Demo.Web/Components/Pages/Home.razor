@@ -5,3 +5,25 @@
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<div>
+    BPM: <span id="bpm">--</span>
+</div>
+
+<PageScript Src="../Components/Pages/Home.razor.js" />
+
+@* <script>
+const source = new EventSource("/heart-rate");
+
+source.onmessage = (event) => {
+    try {
+        const data = JSON.parse(event.data);
+        document.getElementById("bpm").textContent = data.bpm;
+    } catch {}
+};
+
+// opcional: tratar erro
+source.onerror = () => {
+    console.warn("SSE desconectado (o browser vai tentar reconectar)");
+};
+</script> *@
