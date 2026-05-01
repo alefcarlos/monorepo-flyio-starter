@@ -1,0 +1,50 @@
+@page "/todos"
+@attribute [StreamRendering(true)]
+@attribute [Authorize( Roles = "apiservice:viewer")]
+
+@inject ApiServiceApiClient Client
+
+<h3>Todos</h3>
+
+<a href="/todos/create" class="btn btn-primary mb-3">
+    Novo
+</a>
+
+@if (todos == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var todo in todos)
+            {
+                <tr>
+                    <td>@todo.Name</td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary"
+                           href="/todos/edit/@todo.Id">
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private GetAllTodosResponse[]? todos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        todos = await Client.GetAllTodosAsync();
+    }
+}

@@ -1,5 +1,6 @@
 using Duende.AccessTokenManagement.OpenIdConnect;
 using Flyio.Demo.Web.SessionManagement;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -43,6 +44,9 @@ public static class UserSessionManagementExtensions
             .AddBlazorServerAccessTokenManagement<ServerSideTokenStore>();
 
         services.AddAuthorization();
+
+        services.AddTransient<IClaimsTransformation, KeycloakRolesClaimsTransformation>();
+
 
         return services;
     }

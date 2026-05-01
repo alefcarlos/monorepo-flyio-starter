@@ -1,0 +1,43 @@
+@page "/todos/create"
+@attribute [Authorize( Roles = "apiservice:writer")]
+@inject ApiServiceApiClient Service
+@inject NavigationManager Nav
+
+<h3>Novo Todo</h3>
+
+<EditForm Model="Model" FormName="createForm" OnValidSubmit="HandleSubmit" method="post">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Nome</label>
+        <InputText class="form-control" @bind-Value="Model!.Name" />
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Salvar
+    </button>
+
+    <a href="/todos" class="btn btn-secondary ms-2">
+        Voltar
+    </a>
+</EditForm>
+
+@code {
+    public class CreateModel
+    {
+        [Required]
+        public string? Name { get; set; }
+    }
+
+    [SupplyParameterFromForm]
+    private CreateModel? Model { get; set; }
+
+    protected override void OnInitialized() => Model ??= new();
+
+    private async Task HandleSubmit()
+    {
+        await Service.PostTodosAsync(new(Model!.Name!));
+        Nav.NavigateTo("/todos");
+    }
+}

@@ -1,9 +1,6 @@
+using Duende.AccessTokenManagement.OpenIdConnect;
 using Flyio.Demo.Web;
 using Flyio.Demo.Web.Components;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddDefaults()
@@ -11,17 +8,20 @@ var builder = WebApplication.CreateBuilder(args)
 
 builder.Services.AddUserSessionManagement();
 
+builder.Services.AddValidation();
+
 // Add services to the container.
 builder.Services.AddRazorComponents();
 
 builder.Services.AddOutputCache();
 
-builder.Services.AddHttpClient<WeatherApiClient>(client =>
+builder.Services.AddHttpClient<ApiServiceApiClient>(client =>
     {
         // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
         // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
         client.BaseAddress = new("https+http://apiservice");
-    });
+    })
+    .AddUserAccessTokenHandler();
 
 var app = builder.Build();
 
@@ -51,5 +51,10 @@ app.MapRazorComponents<App>();
 app.MapDefaultEndpoints();
 
 app.MapGroup("/authentication").MapLoginAndLogout();
+
+app.MapGet("heart-rate", (CancellationToken cancellationToken, ApiServiceApiClient client) =>
+{
+    return TypedResults.ServerSentEvents(client.SubscribeHeartRateAsync(cancellationToken), eventType: "heartRate");
+});
 
 app.Run();
