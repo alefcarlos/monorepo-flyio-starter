@@ -8,7 +8,7 @@ namespace Flyio.Demo.Web;
 
 public class ApiServiceApiClient(HttpClient httpClient)
 {
-    public async Task<GetAllTodosResponse[]> GetAllTodosAsync()
+    public async Task<GetAllTodosResponse[]> GetAllTodosAsync(string? search)
     {
         List<GetAllTodosResponse>? forecasts = null;
 
@@ -18,7 +18,9 @@ public class ApiServiceApiClient(HttpClient httpClient)
             forecasts.Add(data!);
         }
 
-        return forecasts?.ToArray() ?? [];
+        var allData = forecasts?.ToArray() ?? [];
+
+        return string.IsNullOrWhiteSpace(search) ? allData : [.. allData.Where(x => x.Name.Contains(search))];
     }
 
     public async Task PostTodosAsync(PostTodoRequest request)
@@ -27,7 +29,7 @@ public class ApiServiceApiClient(HttpClient httpClient)
     }
 
     public async IAsyncEnumerable<HeartRateRecord?> SubscribeHeartRateAsync(
-        [EnumeratorCancellation]CancellationToken cancellationToken)
+        [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         using var stream = await httpClient.GetStreamAsync("/heart-rate", cancellationToken);
         await foreach (SseItem<HeartRateRecord?> item in SseParser.Create(stream, (eventType, bytes) =>

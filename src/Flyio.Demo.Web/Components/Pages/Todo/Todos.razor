@@ -1,6 +1,6 @@
 @page "/todos"
 @attribute [StreamRendering(true)]
-@attribute [Authorize( Roles = "apiservice:viewer")]
+@attribute [Authorize(Roles = "apiservice:viewer")]
 
 @inject ApiServiceApiClient Client
 
@@ -16,6 +16,14 @@
 }
 else
 {
+    <EditForm Enhance FormName="SearchTodos" Model="@Model" OnValidSubmit="HandleSearch">
+        <InputText @bind-Value="Model!.Search" placeholder="Pesquise por algum texto.." />
+
+        <button type="submit" class="btn btn-success">
+            Pesquisar
+        </button>
+    </EditForm>
+
     <table class="table">
         <thead>
             <tr>
@@ -29,8 +37,7 @@ else
                 <tr>
                     <td>@todo.Name</td>
                     <td>
-                        <a class="btn btn-sm btn-secondary"
-                           href="/todos/edit/@todo.Id">
+                        <a class="btn btn-sm btn-secondary" href="/todos/edit/@todo.Id">
                             Editar
                         </a>
                     </td>
@@ -41,10 +48,24 @@ else
 }
 
 @code {
+    [SupplyParameterFromForm]
+    public SearchModel? Model { get; set; }
+   
     private GetAllTodosResponse[]? todos;
 
     protected override async Task OnInitializedAsync()
     {
-        todos = await Client.GetAllTodosAsync();
+        Model ??= new();
+        todos = await Client.GetAllTodosAsync(Model.Search);
+    }
+
+    private async Task HandleSearch()
+    {
+        todos = await Client.GetAllTodosAsync(Model!.Search);
+    }
+
+    public class SearchModel
+    {
+        public string Search { get; set; } = default!;
     }
 }
