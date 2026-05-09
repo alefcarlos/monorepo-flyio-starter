@@ -61,11 +61,12 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Reponse_ShouldBeOk_WithExpectedValues()
     {
         //Arrange
+        var timestamp = new DateTimeOffset(DateOnly.MinValue, TimeOnly.MinValue, TimeSpan.FromHours(-3));
         var mock = Substitute.For<IApplicationDbContext>();
         var data = new List<TodoEntity>()
         {
-            new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290305")), Name ="Name" },
-            new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290306")), Name ="Nam2" },
+            new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290305")), Name ="Name", CreatedAt = timestamp },
+            new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290306")), Name ="Nam2", CreatedAt = timestamp },
         }.BuildMockDbSet();
 
         mock.Todos.Returns(data);
@@ -86,7 +87,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
 
         //Assert
         response.Should().Be200Ok();
-        reponseAsString.Should().Be("""[{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290305","name":"Name"},{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290306","name":"Nam2"}]""");
+        reponseAsString.Should().Be("""[{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290305","name":"Name","createdAt":"0001-01-01T00:00:00-03:00"},{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290306","name":"Nam2","createdAt":"0001-01-01T00:00:00-03:00"}]""");
     }
 
     private class ViewerAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>

@@ -11,7 +11,7 @@ public abstract class BaseEntity : IAuditableEntity
     }
 
     public string CreatedBy { get; private set; } = default!;
-    public DateTimeOffset CreatedAt { get; private set; }
+    public DateTimeOffset CreatedAt { get; internal set; }
 
     [ConcurrencyCheck]
     public string? ModifiedBy { get; private set; }
