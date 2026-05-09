@@ -40,7 +40,7 @@ public class ApiServiceApiClient(HttpClient httpClient)
     }
 }
 
-public record GetAllTodosResponse(Guid Id, string Name);
+public record GetAllTodosResponse(Guid Id, string Name, DateTimeOffset CreatedAt);
 public record PostTodoRequest(string Name);
 
 public record HeartRateRecord(

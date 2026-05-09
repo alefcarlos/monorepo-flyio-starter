@@ -14,7 +14,10 @@ var builder = WebApplication.CreateBuilder(args)
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(opt => opt.UseInMemoryDatabase("db"));
+builder.Services.AddDbContext<IApplicationDbContext, ApplicationDbContext>(
+    (provider, opt) => opt.UseNpgsql(provider.GetRequiredService<IConfiguration>().GetConnectionString("Default")));
+
+builder.EnrichNpgsqlDbContext<ApplicationDbContext>();
 
 builder.Services.AddValidation();
 

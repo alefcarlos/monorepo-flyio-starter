@@ -1,4 +1,5 @@
 using Flyio.Demo.ApiService.Entities;
+using Flyio.Demo.ApiService.Infra.EntityConfigurations;
 using Flyio.Demo.ApiService.Infra.Interceptors;
 using Flyio.Demo.ApiService.UseCases;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,19 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
         optionsBuilder.AddInterceptors(_updateAuditableEntitiesInterceptor);
 
         base.OnConfiguring(optionsBuilder);
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        configurationBuilder.Properties<Enum>().HaveConversion<string>();
+
+        configurationBuilder
+            .Properties<DateTimeOffset>()
+            .HaveConversion<DateTimeOffsetConverter>();
+
+        configurationBuilder
+            .Properties<DateTimeOffset?>()
+            .HaveConversion<NullableDateTimeOffsetConverter>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

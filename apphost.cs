@@ -1,11 +1,13 @@
-#:sdk Aspire.AppHost.Sdk@13.2.4
+#:sdk Aspire.AppHost.Sdk@13.3.0
 #:property UserSecretsId=118ee23f-c5d9-4935-96c9-4991c066cb88
 
 #:project ./src/Flyio.Demo.Web/Flyio.Demo.Web.csproj
 #:project ./src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj
 
 #:package Aspire.Hosting.Docker
+#:package Aspire.Hosting.EntityFrameworkCore
 #:package Aspire.Hosting.Keycloak
+#:package Aspire.Hosting.PostgreSQL
 
 var builder = DistributedApplication.CreateBuilder(args);
 
@@ -21,14 +23,28 @@ var keycloak = builder
     .WithDataVolume()
     ;
 
+var postgres = builder.AddPostgres("postgres")
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithPgAdmin(pgAdmin => pgAdmin.WithHostPort(5050).WithLifetime(ContainerLifetime.Persistent));
+
+var postgresdb = postgres.AddDatabase("Default");
+
 var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice")
+    .WithReference(postgresdb)
+    .WaitFor(postgresdb)
     .WaitFor(keycloak)
     .WithHttpHealthCheck("/health");
+
+var apiMigrations = apiService.AddEFMigrations("api-migrations")
+    .RunDatabaseUpdateOnStart();
+    
+apiService.WaitForCompletion(apiMigrations);
 
 builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WaitFor(apiService);
+
 
 builder.Build().Run();

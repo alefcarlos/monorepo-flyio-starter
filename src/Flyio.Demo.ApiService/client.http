@@ -21,7 +21,7 @@ Content-Type: application/x-www-form-urlencoded
 
 grant_type=client_credentials
 &client_id=demo-secret
-&client_secret=8DxelRWxjxdKBziLMQiB0u4fUNhHKSaW
+&client_secret=**********
 
 ### 
 @accessToken= {{tokenRequest.response.body.access_token}}
