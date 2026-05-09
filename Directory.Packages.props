@@ -5,7 +5,7 @@
   <!-- Analyzers/Builds -->
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" />
-    <GlobalPackageReference Include="MinVer" Version="6.0.0" />
+    <GlobalPackageReference Include="MinVer" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.0.3" />
