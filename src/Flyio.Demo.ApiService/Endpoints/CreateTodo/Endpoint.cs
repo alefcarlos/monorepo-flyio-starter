@@ -10,7 +10,7 @@ public static class Extensions
 {
     public static IEndpointRouteBuilder MapCreateTodo(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost("", CreateAsync).RequireAuthorization(p => p.RequireRole("apiservice:writer"));
+        endpoints.MapPost("", CreateAsync).RequireAuthorization("writer");
 
         return endpoints;
     }

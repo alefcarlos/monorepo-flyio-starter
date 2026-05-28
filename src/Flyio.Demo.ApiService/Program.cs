@@ -1,12 +1,13 @@
-using Microsoft.AspNetCore.HttpLogging;
+using System.Runtime.CompilerServices;
 using FluentValidation;
+using Flyio.Demo.ApiService;
 using Flyio.Demo.ApiService.Endpoints;
 using Flyio.Demo.ApiService.Infra;
 using Flyio.Demo.ApiService.UseCases;
-using Microsoft.EntityFrameworkCore;
-using Flyio.Demo.ApiService;
 using Microsoft.AspNetCore.Authentication;
-using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpLogging;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
@@ -46,11 +47,16 @@ builder.Services.Configure<HttpLoggingOptions>(options =>
     options.ResponseHeaders.Add("WWW-Authenticate");
 });
 
-builder.Services.AddAuthentication()
+builder.Authentication
     .AddJwtBearerDefaults()
-    ;
+    .SetDefaultScheme(JwtBearerDefaults.AuthenticationScheme)
+    .Schemes
+    .AddJwtBearer();
 
-builder.Services.AddAuthorizationBuilder();
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("viewer", policy => policy.RequireRole("apiservice:viewer"))
+    .AddPolicy("writer", policy => policy.RequireRole("apiservice:writer"))
+    ;
 
 builder.Services.AddTransient<IClaimsTransformation, KeycloakRolesClaimsTransformation>();
 
