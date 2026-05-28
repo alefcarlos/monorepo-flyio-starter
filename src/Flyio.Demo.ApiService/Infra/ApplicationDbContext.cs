@@ -3,6 +3,7 @@ using Flyio.Demo.ApiService.Infra.EntityConfigurations;
 using Flyio.Demo.ApiService.Infra.Interceptors;
 using Flyio.Demo.ApiService.UseCases;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Flyio.Demo.ApiService.Infra;
 
@@ -21,7 +22,10 @@ internal class ApplicationDbContext : DbContext, IApplicationDbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.AddInterceptors(_updateAuditableEntitiesInterceptor);
-
+        optionsBuilder.ConfigureWarnings(c => c.Log((RelationalEventId.CommandExecuting, LogLevel.Debug),
+                                                                           (RelationalEventId.CommandExecuted, LogLevel.Debug),
+                                                                           (CoreEventId.ContextInitialized, LogLevel.Debug)
+                                                                           ));
         base.OnConfiguring(optionsBuilder);
     }
 
