@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "keycloak" {
-  url       = "http://localhost:8080"
+  url       = "https://localhost:8080"
   client_id = "admin-cli"
   username  = "admin"
   password  = "admin"

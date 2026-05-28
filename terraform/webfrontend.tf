@@ -1,5 +1,5 @@
 resource "keycloak_openid_client" "webfrontend" {
-  realm_id                   = data.keycloak_realm.local.id
+  realm_id                   = "local"
   access_type                = "PUBLIC"
   client_authenticator_type  = "client-secret"
   client_id                  = "webfrontend"
