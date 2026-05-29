@@ -1,6 +1,7 @@
 using AwesomeAssertions;
-using Flyio.Demo.ApiService.Entities;
-using Flyio.Demo.ApiService.UseCases;
+using Flyio.Demo.Todos.Contracts;
+using Flyio.Demo.Todos.Domain;
+using Flyio.Demo.Todos.Infra;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -33,7 +34,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     public async Task Reponse_ShouldBeOk_WithEmptyArray()
     {
         //Arrange
-        var mock = Substitute.For<IApplicationDbContext>();
+        var mock = Substitute.For<ITodosDbContext>();
         var data = new List<TodoEntity>().BuildMockDbSet();
 
         mock.Todos.Returns(data);
@@ -43,7 +44,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddScoped<IApplicationDbContext>((_) => mock);
+                    services.AddScoped<ITodosDbContext>((_) => mock);
                 });
             })
             .CreateClient();
@@ -62,7 +63,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
     {
         //Arrange
         var timestamp = new DateTimeOffset(DateOnly.MinValue, TimeOnly.MinValue, TimeSpan.FromHours(-3));
-        var mock = Substitute.For<IApplicationDbContext>();
+        var mock = Substitute.For<ITodosDbContext>();
         var data = new List<TodoEntity>()
         {
             new() {  Id = new TodoId(Guid.Parse("e06bc7c5-1eaa-40e9-b436-0ea795290305")), Name ="Name", CreatedAt = timestamp },
@@ -76,7 +77,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
             {
                 builder.ConfigureTestServices(services =>
                 {
-                    services.AddScoped<IApplicationDbContext>((_) => mock);
+                    services.AddScoped<ITodosDbContext>((_) => mock);
                 });
             })
             .CreateClient();
@@ -87,7 +88,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
 
         //Assert
         response.Should().Be200Ok();
-        reponseAsString.Should().Be("""[{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290305","name":"Name","createdAt":"0001-01-01T00:00:00-03:00"},{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290306","name":"Nam2","createdAt":"0001-01-01T00:00:00-03:00"}]""");
+        reponseAsString.Should().Be("""[{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290305","name":"Name","done":false,"createdAt":"0001-01-01T00:00:00-03:00"},{"id":"e06bc7c5-1eaa-40e9-b436-0ea795290306","name":"Nam2","done":false,"createdAt":"0001-01-01T00:00:00-03:00"}]""");
     }
 
     private class ViewerAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>

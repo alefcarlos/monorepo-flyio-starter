@@ -1,0 +1,35 @@
+using AlefCarlos.AspNetCoreDefaults.WebApi;
+using Flyio.Demo.Todos.Endpoints.Responses;
+using Flyio.Demo.Todos.UseCases.Get;
+using Flyio.Demo.Todos.UseCases.GetAll;
+using Mediator;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Routing;
+
+namespace Flyio.Demo.Todos.Endpoints.GetTodo;
+
+public static class Extensions
+{
+    public static IEndpointRouteBuilder MapGetTodo(this IEndpointRouteBuilder endpoints)
+    {
+        endpoints.MapGet("{id:guid}", GetByIdAsync).RequireAuthorization("todos_viewer");
+        endpoints.MapGet("", GetAllAsync).RequireAuthorization("todos_viewer");
+
+        return endpoints;
+    }
+
+    private static async ValueTask<Ok<IEnumerable<TodoResponse>>> GetAllAsync(IMediator mediator)
+    {
+        var result = await mediator.Send(new GetAllTodosQuery());
+
+        return result.ToOkOnlyResult((list) => list.Select(TodoResponse.FromEntity));
+    }
+
+    private static async ValueTask<Results<Ok<TodoResponse>, NotFound, ProblemHttpResult>> GetByIdAsync(IMediator mediator, Guid id)
+    {
+        var result = await mediator.Send(new GetTodoQuery(new(id)));
+
+        return result.ToGetByIdResult(TodoResponse.FromEntity);
+    }
+}
