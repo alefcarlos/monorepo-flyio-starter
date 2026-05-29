@@ -28,5 +28,10 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-    "name": "aurora"
+    "name": "teste"
 }
+
+###
+
+POST https://localhost:7386/v1/todos/c2d174e7-3ca8-438c-ac01-c27979e5e951:done
+Authorization: Bearer {{token}}

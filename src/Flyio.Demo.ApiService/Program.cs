@@ -1,5 +1,7 @@
 using FluentValidation;
 using Flyio.Demo.ApiService;
+using Flyio.Demo.Heart;
+using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Todos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args)
     ;
 
 builder.AddTodosModule();
+builder.AddHeartModule();
+
+builder.Services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>(); // domain events
 
 builder.Services.AddHttpContextAccessor();
 
@@ -17,8 +22,8 @@ builder.Services.AddValidation();
 
 builder.Services.AddMediator(options =>
 {
-    //options.Telemetry.EnableMetrics = true;
-    //options.Telemetry.EnableTracing = true;
+    options.Telemetry.EnableMetrics = true;
+    options.Telemetry.EnableTracing = true;
     options.ServiceLifetime = ServiceLifetime.Scoped;
 
     // Supply any TYPE from each assembly you want scanned (the generator finds the assembly from the type)
@@ -26,12 +31,13 @@ builder.Services.AddMediator(options =>
     [
         typeof(IApiMarker),
         typeof(ITodosModule),
+        typeof(IHeartModule),
     ];
 });
 
-//builder.Services.AddOpenTelemetry()
-//    .WithMetrics(metrics => metrics.AddMeter(Mediator.Mediator.MeterName))
-//    .WithTracing(tracing => tracing.AddSource(Mediator.Mediator.ActivitySourceName));
+builder.Services.AddOpenTelemetry()
+   .WithMetrics(metrics => metrics.AddMeter(Mediator.Mediator.MeterName))
+   .WithTracing(tracing => tracing.AddSource(Mediator.Mediator.ActivitySourceName));
 
 builder.Services.AddValidatorsFromAssemblies([typeof(IApiMarker).Assembly, typeof(ITodosModule).Assembly]);
 

@@ -28,7 +28,7 @@ public static class Extensions
             var result = await mediator.Send(new SetTodoDoneCommand(new TodoId(id)));
 
             return result.ToOkOrNotFoundResult("SetDone");
-        });
+        }).RequireAuthorization();
 
         return group;
     }

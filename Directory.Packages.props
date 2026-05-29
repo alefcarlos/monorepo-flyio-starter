@@ -24,8 +24,8 @@
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
     <PackageVersion Include="Steeltoe.Configuration.ConfigServer" Version="4.1.0" />
     <PackageVersion Include="Steeltoe.Configuration.Placeholder" Version="4.1.0" />
-    <PackageVersion Include="Mediator.Abstractions" Version="3.0.2" />
-    <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.2" />
+    <PackageVersion Include="Mediator.Abstractions" Version="3.1.0-rc.1" />
+    <PackageVersion Include="Mediator.SourceGenerator" Version="3.1.0-rc.1" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.0" />
   </ItemGroup>
   <!-- Aspire -->
