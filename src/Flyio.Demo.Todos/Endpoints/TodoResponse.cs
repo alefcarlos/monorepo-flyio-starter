@@ -1,4 +1,4 @@
-using Flyio.Demo.Todos.Entities;
+using Flyio.Demo.Todos.Domain;
 
 namespace Flyio.Demo.Todos.Endpoints.Responses;
 

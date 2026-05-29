@@ -1,19 +1,22 @@
 using Flyio.Demo.SharedKernel.Entities;
 using Flyio.Demo.SharedKernel.Infra.Interceptors;
-using Flyio.Demo.Todos.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Flyio.Demo.SharedKernel.Infra.EntityConfigurations;
+using Flyio.Demo.Todos.Domain;
+using Flyio.Demo.SharedKernel;
 
 namespace Flyio.Demo.Todos.Infra;
 
 public class TodosDbContext : DbContext
 {
+    private readonly IDomainEventDispatcher? _dispatcher;
     readonly UpdateAuditableEntitiesInterceptor _updateAuditableEntitiesInterceptor = new();
 
-    public TodosDbContext(DbContextOptions<TodosDbContext> options) : base(options)
+    public TodosDbContext(DbContextOptions<TodosDbContext> options, IDomainEventDispatcher? dispatcher) : base(options)
     {
+        _dispatcher = dispatcher;
     }
 
     public DbSet<AuditTrailEntity> AuditTrails { get; set; }
@@ -48,5 +51,28 @@ public class TodosDbContext : DbContext
         modelBuilder.HasDefaultSchema("Todos");
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TodosDbContext).Assembly);
+    }
+
+    /// <summary>
+    /// This is needed for domain events to work
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    {
+        int result = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+
+        // ignore events if no dispatcher provided
+        if (_dispatcher == null) return result;
+
+        // dispatch events only if save was successful
+        var entitiesWithEvents = ChangeTracker.Entries<IHaveDomainEvents>()
+            .Select(e => e.Entity)
+            .Where(e => e.DomainEvents.Any())
+        .ToArray();
+
+        await _dispatcher.DispatchAndClearEventsAsync(entitiesWithEvents);
+
+        return result;
     }
 }

@@ -1,9 +1,10 @@
 //https://github.com/PlatformPlatform/platformplatform/tree/main/shared-kernel
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Flyio.Demo.SharedKernel.Entities;
 
-public abstract class BaseEntity : IAuditableEntity
+public abstract class BaseEntity : IAuditableEntity, IHaveDomainEvents
 {
     protected BaseEntity()
     {
@@ -19,6 +20,13 @@ public abstract class BaseEntity : IAuditableEntity
     [ConcurrencyCheck]
     public DateTimeOffset? ModifiedAt { get; private set; }
 
+    private List<DomainEventBase> _domainEvents = new();
+    
+    [NotMapped]
+    public IEnumerable<DomainEventBase> DomainEvents => _domainEvents.AsReadOnly();
+
+    protected void RegisterDomainEvent(DomainEventBase domainEvent) => _domainEvents.Add(domainEvent);
+    void IHaveDomainEvents.ClearDomainEvents() => _domainEvents.Clear();
 
     /// <summary>
     ///     This method is used by the UpdateAuditableEntitiesInterceptor in the Infrastructure layer.
@@ -46,5 +54,10 @@ public abstract class BaseEntity : IAuditableEntity
     {
         ModifiedBy = userId;
         ModifiedAt = modifiedAt;
+    }
+
+    public void ClearDomainEvents()
+    {
+        throw new NotImplementedException();
     }
 }

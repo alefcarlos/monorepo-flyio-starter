@@ -3,6 +3,7 @@
 
 #:project ./src/Flyio.Demo.Web/Flyio.Demo.Web.csproj
 #:project ./src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj
+#:project ./src/Flyio.Demo.Todos/Flyio.Demo.Todos.csproj
 
 #:package Aspire.Hosting.Docker
 #:package Aspire.Hosting.EntityFrameworkCore
@@ -35,10 +36,8 @@ var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice"
     .WaitFor(keycloak)
     .WithHttpHealthCheck("/health");
 
-var apiMigrations = apiService.AddEFMigrations("api-migrations")
-    .RunDatabaseUpdateOnStart();
-    
-apiService.WaitForCompletion(apiMigrations);
+var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
+    .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
 
 builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
     .WithExternalHttpEndpoints()

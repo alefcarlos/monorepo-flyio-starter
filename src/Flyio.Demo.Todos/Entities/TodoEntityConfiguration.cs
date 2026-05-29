@@ -1,3 +1,4 @@
+using Flyio.Demo.Todos.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Flyio.Demo.Todos.Entities;

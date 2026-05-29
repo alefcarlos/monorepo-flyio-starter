@@ -5,7 +5,11 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj" />
+    <Project Path="src/Flyio.Demo.Heart/Flyio.Demo.Heart.csproj" />
     <Project Path="src/Flyio.Demo.ServiceDefaults/Flyio.Demo.ServiceDefaults.csproj" />
+    <Project Path="src/Flyio.Demo.SharedKernel/Flyio.Demo.SharedKernel.csproj" />
+    <Project Path="src/Flyio.Demo.Todos/Flyio.Demo.Todos.csproj" />
+    <Project Path="src/Flyio.Demo.Todos.Contracts/Flyio.Demo.Todos.Contracts.csproj" />
     <Project Path="src/Flyio.Demo.Web/Flyio.Demo.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">

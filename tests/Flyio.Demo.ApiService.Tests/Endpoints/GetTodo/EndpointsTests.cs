@@ -1,6 +1,5 @@
 using AwesomeAssertions;
-using Flyio.Demo.ApiService.Entities;
-using Flyio.Demo.ApiService.UseCases;
+using Flyio.Demo.Todos.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;

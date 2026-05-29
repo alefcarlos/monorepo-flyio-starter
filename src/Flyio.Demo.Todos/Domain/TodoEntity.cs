@@ -1,7 +1,7 @@
 using Flyio.Demo.SharedKernel.Entities;
 using Flyio.Demo.Todos.Contracts;
 
-namespace Flyio.Demo.Todos.Entities;
+namespace Flyio.Demo.Todos.Domain;
 
 public class TodoEntity : BaseEntity
 {
@@ -26,5 +26,7 @@ public class TodoEntity : BaseEntity
     public void SetDone()
     {
         Done = true;
+
+        RegisterDomainEvent(new TodoIsDoneEvent(Id));
     }
 }

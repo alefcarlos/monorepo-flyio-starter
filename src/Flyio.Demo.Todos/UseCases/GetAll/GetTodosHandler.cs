@@ -1,5 +1,5 @@
 using Ardalis.Result;
-using Flyio.Demo.Todos.Entities;
+using Flyio.Demo.Todos.Domain;
 using Flyio.Demo.Todos.Infra;
 using Mediator;
 
