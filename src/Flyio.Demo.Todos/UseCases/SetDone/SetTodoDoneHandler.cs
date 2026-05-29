@@ -6,9 +6,9 @@ namespace Flyio.Demo.Todos.UseCases.SetDone;
 
 public class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result>
 {
-    private readonly TodosDbContext _dbContext;
+    private readonly ITodosDbContext _dbContext;
 
-    public SetTodoDoneHandler(TodosDbContext dbContext)
+    public SetTodoDoneHandler(ITodosDbContext dbContext)
     {
         _dbContext = dbContext;
     }

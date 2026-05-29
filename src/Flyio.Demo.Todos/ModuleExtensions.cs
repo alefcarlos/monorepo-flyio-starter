@@ -13,7 +13,7 @@ public static class HostApplicationBuilderExtensions
     {
         public TBuilder AddTodosModule()
         {
-            builder.Services.AddDbContext<TodosDbContext>((provider, opt) => opt.UseNpgsql(provider.GetRequiredService<IConfiguration>().GetConnectionString("Default")));
+            builder.Services.AddDbContext<ITodosDbContext, TodosDbContext>((provider, opt) => opt.UseNpgsql(provider.GetRequiredService<IConfiguration>().GetConnectionString("Default")));
             builder.EnrichNpgsqlDbContext<TodosDbContext>();
 
             builder.Services.AddAuthorizationBuilder()

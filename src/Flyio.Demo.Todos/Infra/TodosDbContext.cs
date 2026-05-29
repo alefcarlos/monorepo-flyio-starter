@@ -9,7 +9,14 @@ using Flyio.Demo.SharedKernel;
 
 namespace Flyio.Demo.Todos.Infra;
 
-public class TodosDbContext : DbContext
+public interface ITodosDbContext
+{
+    DbSet<TodoEntity> Todos { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+}
+
+internal class TodosDbContext : DbContext, ITodosDbContext
 {
     private readonly IDomainEventDispatcher? _dispatcher;
     readonly UpdateAuditableEntitiesInterceptor _updateAuditableEntitiesInterceptor = new();

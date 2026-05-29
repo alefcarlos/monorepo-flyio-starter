@@ -4,9 +4,13 @@
   </ItemGroup>
 
   <ItemGroup>
-		<PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
-		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <InternalsVisibleTo Include="Flyio.Demo.ApiService.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,9 +8,9 @@ namespace Flyio.Demo.Todos.UseCases.Create;
 
 public class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<TodoId>>
 {
-    private readonly TodosDbContext _dbContext;
+    private readonly ITodosDbContext _dbContext;
 
-    public CreateTodoHandler(TodosDbContext dbContext)
+    public CreateTodoHandler(ITodosDbContext dbContext)
     {
         _dbContext = dbContext;
     }

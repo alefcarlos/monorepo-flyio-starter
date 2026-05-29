@@ -7,9 +7,9 @@ namespace Flyio.Demo.Todos.UseCases.Get;
 
 public class GetTodoHandler : IQueryHandler<GetTodoQuery, Result<TodoEntity>>
 {
-    private readonly TodosDbContext _dbContext;
+    private readonly ITodosDbContext _dbContext;
 
-    public GetTodoHandler(TodosDbContext dbContext)
+    public GetTodoHandler(ITodosDbContext dbContext)
     {
         _dbContext = dbContext;
     }
