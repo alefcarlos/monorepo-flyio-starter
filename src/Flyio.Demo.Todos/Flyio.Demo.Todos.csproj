@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+		<PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
+		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flyio.Demo.SharedKernel\Flyio.Demo.SharedKernel.csproj" />
+    <ProjectReference Include="..\Flyio.Demo.Todos.Contracts\Flyio.Demo.Todos.Contracts.csproj" />
+  </ItemGroup>
+</Project>
