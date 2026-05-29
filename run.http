@@ -18,6 +18,11 @@ Authorization: Bearer {{token}}
 
 ###
 
+GET https://localhost:7386/whoami
+Authorization: Bearer {{token}}
+
+###
+
 POST https://localhost:7386/v1/todos
 Authorization: Bearer {{token}}
 Content-Type: application/json

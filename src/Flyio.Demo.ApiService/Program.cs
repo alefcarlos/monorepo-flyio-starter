@@ -44,7 +44,6 @@ builder.Services.AddValidatorsFromAssemblies([typeof(IApiMarker).Assembly]);
 builder.Services.Configure<HttpLoggingOptions>(options =>
 {
     options.RequestHeaders.Add("Authorization");
-    options.ResponseHeaders.Add("WWW-Authenticate");
 });
 
 builder.Authentication
@@ -87,6 +86,21 @@ app.MapGet("/heart-rate", (CancellationToken cancellationToken) =>
 
     return TypedResults.ServerSentEvents(GetDataAsync(cancellationToken), eventType: "heartRate");
 });
+
+app.MapGet("/whoami", (HttpContext context) =>
+{
+    static string GetAuthorizationScheme(HttpRequest request) =>
+        request.Headers.Authorization.First()!.Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+
+    static string GetAccessToken(HttpRequest request) =>
+        request.Headers.Authorization.First()!.Split(' ', StringSplitOptions.RemoveEmptyEntries)[1];
+
+    var claims = context.User.Claims.Select(c => new KeyValuePair<string, string>(c.Type, c.Value));
+    var scheme = GetAuthorizationScheme(context.Request);
+    var accessToken = GetAccessToken(context.Request);
+
+    return new { scheme, claims, accessToken };
+}).RequireAuthorization();
 
 await app.RunAsync();
 
