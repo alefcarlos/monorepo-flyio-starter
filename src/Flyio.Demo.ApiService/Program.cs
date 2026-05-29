@@ -25,14 +25,6 @@ builder.Services.AddMediator(options =>
     options.Telemetry.EnableMetrics = true;
     options.Telemetry.EnableTracing = true;
     options.ServiceLifetime = ServiceLifetime.Scoped;
-
-    // Supply any TYPE from each assembly you want scanned (the generator finds the assembly from the type)
-    options.Assemblies =
-    [
-        typeof(IApiMarker),
-        typeof(ITodosModule),
-        typeof(IHeartModule),
-    ];
 });
 
 builder.Services.AddOpenTelemetry()
