@@ -4,7 +4,7 @@ using Mediator;
 
 namespace Flyio.Demo.Todos.UseCases.SetDone;
 
-public class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result>
+internal class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result>
 {
     private readonly ITodosDbContext _dbContext;
 

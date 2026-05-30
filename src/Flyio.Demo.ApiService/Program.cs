@@ -24,6 +24,7 @@ builder.Services.AddMediator(options =>
 {
     options.Telemetry.EnableMetrics = true;
     options.Telemetry.EnableTracing = true;
+    options.GenerateTypesAsInternal = true;
     options.ServiceLifetime = ServiceLifetime.Scoped;
 });
 

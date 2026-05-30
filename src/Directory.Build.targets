@@ -1,0 +1,10 @@
+<Project>
+  <Target Name="ValidateModuleName"
+          BeforeTargets="Build">
+
+    <Error
+      Condition="'$(IsModule)' == 'true' and '$(ModuleName)' == ''"
+      Text="ModuleName must be specified for module project '$(MSBuildProjectName)'." />
+
+  </Target>
+</Project>

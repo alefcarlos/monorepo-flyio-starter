@@ -6,7 +6,7 @@ using Mediator;
 
 namespace Flyio.Demo.Todos.UseCases.Create;
 
-public class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<TodoId>>
+internal class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<TodoId>>
 {
     private readonly ITodosDbContext _dbContext;
 

@@ -1,10 +1,11 @@
+using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Todos.Contracts;
 using Flyio.Demo.Todos.Domain;
 using Mediator;
 
 namespace Flyio.Demo.Todos.Integrations;
 
-public class PublishTodoIsDoneIntegrationEventEventHandler : INotificationHandler<TodoIsDoneEvent>
+public class PublishTodoIsDoneIntegrationEventEventHandler : NotificationHandlerBase<TodoIsDoneEvent>
 {
     private readonly IMediator _mediator;
 
@@ -13,7 +14,7 @@ public class PublishTodoIsDoneIntegrationEventEventHandler : INotificationHandle
         _mediator = mediator;
     }
 
-    public async ValueTask Handle(TodoIsDoneEvent notification, CancellationToken cancellationToken)
+    protected override async ValueTask HandleInternalAsync(TodoIsDoneEvent notification, CancellationToken cancellationToken)
     {
         var integrationEvent = new TodoIsDoneIntegrationEvent(notification.Id);
 

@@ -4,5 +4,5 @@ namespace Flyio.Demo.SharedKernel;
 
 public abstract record IntegrationEventBase : INotification
 {
-  public DateTimeOffset DateTimeOffset { get; set; } = DateTimeOffset.UtcNow;
+  public DateTimeOffset DateTimeOffset { get; } = DateTimeOffset.UtcNow;
 }

@@ -1,0 +1,14 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove(Directory.Build.props, $(MSBuildThisFileDirectory)..))" />
+
+  <ItemGroup Condition="'$(ModuleName)' != ''">
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ModuleName</_Parameter1>
+      <_Parameter2>$(ModuleName)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsModule)' == 'true'">
+    <InternalsVisibleTo Include="Flyio.Demo.ApiService" />
+  </ItemGroup>
+</Project>

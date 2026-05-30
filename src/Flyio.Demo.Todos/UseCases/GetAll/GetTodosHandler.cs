@@ -5,7 +5,7 @@ using Mediator;
 
 namespace Flyio.Demo.Todos.UseCases.GetAll;
 
-public class GetTodosHandler : IQueryHandler<GetAllTodosQuery, Result<List<TodoEntity>>>
+internal class GetTodosHandler : IQueryHandler<GetAllTodosQuery, Result<List<TodoEntity>>>
 {
     private readonly ITodosDbContext _dbContext;
 
