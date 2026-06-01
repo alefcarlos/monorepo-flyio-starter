@@ -22,7 +22,11 @@ internal class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result>
             return Result.NotFound();
         }
 
-        entity.SetDone();
+
+        if (entity.SetDone() is { Status: ResultStatus.Error } r)
+        {
+            return r;
+        }
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

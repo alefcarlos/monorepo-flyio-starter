@@ -1,4 +1,5 @@
-using Flyio.Demo.SharedKernel.Entities;
+using Ardalis.Result;
+using Flyio.Demo.Module.SharedKernel.Entities;
 using Flyio.Demo.Todos.Contracts;
 
 namespace Flyio.Demo.Todos.Domain;
@@ -23,10 +24,17 @@ public class TodoEntity : BaseEntity
         return entity;
     }
 
-    public void SetDone()
+    public Result SetDone()
     {
+        if (Done)
+        {
+            //add validation
+            return Result.Error("This todo is already in Done state");
+        }
+
         Done = true;
 
         RegisterDomainEvent(new TodoIsDoneEvent(Id));
+        return Result.Success();
     }
 }
