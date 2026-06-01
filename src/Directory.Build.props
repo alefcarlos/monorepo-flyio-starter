@@ -9,6 +9,15 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsModule)' == 'true'">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <InternalsVisibleTo Include="Flyio.Demo.ApiService" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsModule)' == 'true'">
+    <PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(IsModule)' == 'true'">
+    <ProjectReference Include="..\Flyio.Demo.Module.SharedKernel\Flyio.Demo.Module.SharedKernel.csproj" />
   </ItemGroup>
 </Project>

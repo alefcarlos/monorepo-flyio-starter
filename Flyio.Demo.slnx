@@ -6,6 +6,7 @@
   <Folder Name="/src/">
     <Project Path="src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj" />
     <Project Path="src/Flyio.Demo.Heart/Flyio.Demo.Heart.csproj" />
+    <Project Path="src/Flyio.Demo.Module.SharedKernel/Flyio.Demo.Module.SharedKernel.csproj" />
     <Project Path="src/Flyio.Demo.ServiceDefaults/Flyio.Demo.ServiceDefaults.csproj" />
     <Project Path="src/Flyio.Demo.SharedKernel/Flyio.Demo.SharedKernel.csproj" />
     <Project Path="src/Flyio.Demo.Todos/Flyio.Demo.Todos.csproj" />

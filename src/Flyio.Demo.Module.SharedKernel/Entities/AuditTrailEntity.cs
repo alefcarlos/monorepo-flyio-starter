@@ -1,4 +1,4 @@
-namespace Flyio.Demo.SharedKernel.Entities;
+namespace Flyio.Demo.Module.SharedKernel.Entities;
 
 public enum ETrailType
 {

@@ -6,14 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AlefCarlos.AspNetCore.WebApi" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Flyio.Demo.Todos.Contracts\Flyio.Demo.Todos.Contracts.csproj" />
   </ItemGroup>
 

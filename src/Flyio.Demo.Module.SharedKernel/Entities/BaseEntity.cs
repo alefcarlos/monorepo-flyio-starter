@@ -1,8 +1,9 @@
 //https://github.com/PlatformPlatform/platformplatform/tree/main/shared-kernel
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Flyio.Demo.SharedKernel;
 
-namespace Flyio.Demo.SharedKernel.Entities;
+namespace Flyio.Demo.Module.SharedKernel.Entities;
 
 public abstract class BaseEntity : IAuditableEntity, IHaveDomainEvents
 {

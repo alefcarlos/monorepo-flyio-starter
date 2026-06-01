@@ -1,13 +1,13 @@
 using System.Security.Claims;
 using System.Text.Json;
-using Flyio.Demo.SharedKernel.Entities;
+using Flyio.Demo.Module.SharedKernel.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Flyio.Demo.SharedKernel.Infra.Interceptors;
+namespace Flyio.Demo.Module.SharedKernel.Infra.Interceptors;
 
 public sealed class UpdateAuditableEntitiesInterceptor : SaveChangesInterceptor
 {

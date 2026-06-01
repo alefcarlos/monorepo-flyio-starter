@@ -1,11 +1,11 @@
-using Flyio.Demo.SharedKernel.Entities;
-using Flyio.Demo.SharedKernel.Infra.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
-using Flyio.Demo.SharedKernel.Infra.EntityConfigurations;
 using Flyio.Demo.Todos.Domain;
 using Flyio.Demo.SharedKernel;
+using Flyio.Demo.Module.SharedKernel.Infra.Interceptors;
+using Flyio.Demo.Module.SharedKernel.Entities;
+using Flyio.Demo.Module.SharedKernel.Infra.EntityConfigurations;
 
 namespace Flyio.Demo.Todos.Infra;
 

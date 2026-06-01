@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Flyio.Demo.SharedKernel.Infra.EntityConfigurations;
+namespace Flyio.Demo.Module.SharedKernel.Infra.EntityConfigurations;
 
 /// <summary>
 /// a value converter that ensures you can run TMDS (integration tests) in timezones with UTC offset != 0

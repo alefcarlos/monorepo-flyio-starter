@@ -1,8 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="Mediator.Abstractions" />
-    </ItemGroup>
-    <ItemGroup>
       <ProjectReference Include="..\Flyio.Demo.SharedKernel\Flyio.Demo.SharedKernel.csproj" />
     </ItemGroup>
 </Project>
