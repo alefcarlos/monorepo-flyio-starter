@@ -13,8 +13,8 @@ public static class Extensions
 {
     public static IEndpointRouteBuilder MapGetTodo(this IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet("{id:guid}", GetByIdAsync).RequireAuthorization("todos_viewer");
-        endpoints.MapGet("", GetAllAsync).RequireAuthorization("todos_viewer");
+        endpoints.MapGet("{id:guid}", GetByIdAsync).RequireAuthorization();
+        endpoints.MapGet("", GetAllAsync).RequireAuthorization();
 
         return endpoints;
     }

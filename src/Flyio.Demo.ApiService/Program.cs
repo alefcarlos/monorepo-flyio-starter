@@ -1,8 +1,10 @@
 using FluentValidation;
 using Flyio.Demo.ApiService;
 using Flyio.Demo.Heart;
+using Flyio.Demo.Module.SharedKernel.Infra;
 using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Todos;
+using Flyio.Demo.Todos.Infra;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpLogging;
@@ -15,6 +17,7 @@ builder.AddTodosModule();
 builder.AddHeartModule();
 
 builder.Services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>(); // domain events
+builder.Services.AddSingleton<ITenantGetter, TenantGetter>();
 
 builder.Services.AddHttpContextAccessor();
 

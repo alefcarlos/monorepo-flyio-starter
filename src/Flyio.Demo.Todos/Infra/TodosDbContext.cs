@@ -6,6 +6,7 @@ using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Module.SharedKernel.Infra.Interceptors;
 using Flyio.Demo.Module.SharedKernel.Entities;
 using Flyio.Demo.Module.SharedKernel.Infra.EntityConfigurations;
+using Flyio.Demo.Module.SharedKernel.Infra;
 
 namespace Flyio.Demo.Todos.Infra;
 
@@ -14,16 +15,22 @@ public interface ITodosDbContext
     DbSet<TodoEntity> Todos { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    IQueryable<T> SqlQuery<T>(string sql) where T : notnull;
 }
 
 internal class TodosDbContext : DbContext, ITodosDbContext
 {
+    private readonly string _tenantId;
     private readonly IDomainEventDispatcher? _dispatcher;
     readonly UpdateAuditableEntitiesInterceptor _updateAuditableEntitiesInterceptor = new();
+    readonly SetTenantIdInterceptor _setTenantIdInterceptor = new();
 
-    public TodosDbContext(DbContextOptions<TodosDbContext> options, IDomainEventDispatcher? dispatcher) : base(options)
+    public TodosDbContext(DbContextOptions<TodosDbContext> options,
+        IDomainEventDispatcher? dispatcher,
+        ITenantGetter tenantGetter) : base(options)
     {
         _dispatcher = dispatcher;
+        _tenantId = tenantGetter.GetCurrentTenant();
     }
 
     public DbSet<AuditTrailEntity> AuditTrails { get; set; }
@@ -32,6 +39,7 @@ internal class TodosDbContext : DbContext, ITodosDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        optionsBuilder.AddInterceptors(_setTenantIdInterceptor);
         optionsBuilder.AddInterceptors(_updateAuditableEntitiesInterceptor);
         optionsBuilder.ConfigureWarnings(c => c.Log((RelationalEventId.CommandExecuting, LogLevel.Debug),
                                                                            (RelationalEventId.CommandExecuted, LogLevel.Debug),
@@ -57,6 +65,8 @@ internal class TodosDbContext : DbContext, ITodosDbContext
     {
         modelBuilder.HasDefaultSchema("Todos");
 
+        modelBuilder.Entity<TodoEntity>().HasQueryFilter(b => b.TenantId == _tenantId);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TodosDbContext).Assembly);
     }
 
@@ -81,5 +91,10 @@ internal class TodosDbContext : DbContext, ITodosDbContext
         await _dispatcher.DispatchAndClearEventsAsync(entitiesWithEvents);
 
         return result;
+    }
+
+    public IQueryable<T> SqlQuery<T>(string sql) where T : notnull
+    {
+        return Database.SqlQueryRaw<T>(sql);
     }
 }

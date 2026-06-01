@@ -3,6 +3,7 @@ using System;
 using Flyio.Demo.Todos.Infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Flyio.Demo.Todos.Migrations
 {
     [DbContext(typeof(TodosDbContext))]
-    partial class TodosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260601222702_TenantId")]
+    partial class TenantId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

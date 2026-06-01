@@ -5,7 +5,7 @@ using Flyio.Demo.SharedKernel;
 
 namespace Flyio.Demo.Module.SharedKernel.Entities;
 
-public abstract class BaseEntity : IAuditableEntity, IHaveDomainEvents
+public abstract class BaseEntity : IAuditableEntity, IHaveDomainEvents, ITenantEntity
 {
     protected BaseEntity()
     {
@@ -22,9 +22,11 @@ public abstract class BaseEntity : IAuditableEntity, IHaveDomainEvents
     public DateTimeOffset? ModifiedAt { get; private set; }
 
     private List<DomainEventBase> _domainEvents = new();
-    
+
     [NotMapped]
     public IEnumerable<DomainEventBase> DomainEvents => _domainEvents.AsReadOnly();
+
+    public string TenantId { get; private set; } = default!;
 
     protected void RegisterDomainEvent(DomainEventBase domainEvent) => _domainEvents.Add(domainEvent);
     void IHaveDomainEvents.ClearDomainEvents() => _domainEvents.Clear();
@@ -57,8 +59,8 @@ public abstract class BaseEntity : IAuditableEntity, IHaveDomainEvents
         ModifiedAt = modifiedAt;
     }
 
-    public void ClearDomainEvents()
+    void ITenantEntity.SetTenantId(string tenant)
     {
-        throw new NotImplementedException();
+        TenantId = tenant;
     }
 }
