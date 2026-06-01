@@ -18,7 +18,7 @@ public static class HostApplicationBuilderExtensions
             builder.EnrichNpgsqlDbContext<TodosDbContext>();
 
             builder.Services.AddAuthorization(x => x.DefaultPolicy = new AuthorizationPolicyBuilder()
-                .RequireClaim("tenant")
+                .RequireClaim("organization")
                 .RequireAuthenticatedUser()
                 .Build());
 

@@ -17,6 +17,6 @@ public class TenantGetter : ITenantGetter
     {
         var user = _httpContextAccessor.HttpContext!.User;
 
-        return user.FindFirstValue("tenant")!;
+        return user.FindFirstValue("organization")!;
     }
 }
