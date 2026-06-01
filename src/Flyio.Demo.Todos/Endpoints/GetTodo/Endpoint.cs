@@ -19,17 +19,17 @@ public static class Extensions
         return endpoints;
     }
 
-    private static async ValueTask<Ok<IEnumerable<TodoResponse>>> GetAllAsync(IMediator mediator)
+    private static async ValueTask<Results<Ok<IEnumerable<TodoResponse>>, ValidationProblem, ProblemHttpResult>> GetAllAsync(IMediator mediator)
     {
         var result = await mediator.Send(new GetAllTodosQuery());
 
-        return result.ToOkOnlyResult((list) => list.Select(TodoResponse.FromEntity));
+        return result.ToOk((list) => list.Select(TodoResponse.FromEntity));
     }
 
-    private static async ValueTask<Results<Ok<TodoResponse>, NotFound, ProblemHttpResult>> GetByIdAsync(IMediator mediator, Guid id)
+    private static async ValueTask<Results<Ok<TodoResponse>, ValidationProblem, ProblemHttpResult>> GetByIdAsync(IMediator mediator, Guid id)
     {
         var result = await mediator.Send(new GetTodoQuery(new(id)));
 
-        return result.ToGetByIdResult(TodoResponse.FromEntity);
+        return result.ToOk(TodoResponse.FromEntity);
     }
 }

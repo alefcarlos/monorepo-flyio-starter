@@ -17,10 +17,10 @@ public static class Extensions
         return endpoints;
     }
 
-    private static async ValueTask<Results<Ok, NotFound, ProblemHttpResult>> ExecuteAsync(IMediator mediator, Guid id)
+    private static async ValueTask<Results<NoContent, NotFound, ValidationProblem, ProblemHttpResult>> ExecuteAsync(IMediator mediator, Guid id)
     {
         var result = await mediator.Send(new SetTodoDoneCommand(new TodoId(id)));
 
-        return result.ToOkOrNotFoundResult("SetDone");
+        return result.ToNoContent();
     }
 }

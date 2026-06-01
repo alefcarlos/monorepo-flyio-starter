@@ -8,8 +8,8 @@
     <GlobalPackageReference Include="MinVer" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.1.3" />
-    <PackageVersion Include="AlefCarlos.AspNetCoreDefaults" Version="1.1.3" />
+    <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.1.4" />
+    <PackageVersion Include="AlefCarlos.AspNetCoreDefaults" Version="1.1.4" />
     <PackageVersion Include="Aspire.Hosting.Docker" Version="13.3.5" />
     <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.3.5-preview.1.26270.6" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.3.5" />
