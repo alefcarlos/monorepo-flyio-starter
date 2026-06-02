@@ -1,4 +1,4 @@
-#:sdk Aspire.AppHost.Sdk@13.3.5
+#:sdk Aspire.AppHost.Sdk@13.4.0
 #:property UserSecretsId=118ee23f-c5d9-4935-96c9-4991c066cb88
 
 #:project ./src/Flyio.Demo.Web/Flyio.Demo.Web.csproj
@@ -36,14 +36,13 @@ var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice"
     .WaitFor(keycloak)
     .WithHttpHealthCheck("/health");
 
-var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
-    .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
+// var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
+//     .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
 
 builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WaitFor(apiService);
-
 
 builder.Build().Run();

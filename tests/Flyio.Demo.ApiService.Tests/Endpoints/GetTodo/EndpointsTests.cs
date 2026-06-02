@@ -102,7 +102,8 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         {
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Role, "apiservice:viewer")
+                new(ClaimTypes.Role, "apiservice:viewer"),
+                new("organization", "acme")
             };
 
             var identity = new ClaimsIdentity(claims, "Bearer");
