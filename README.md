@@ -99,7 +99,7 @@ Outros diretórios:
 ### Executar com Aspire
 
 ```bash
-aspire run
+aspire start
 ```
 
 Isso inicia automaticamente:
@@ -124,9 +124,7 @@ Isso cria os clients OIDC (`apiservice`, `webfrontend`, `demo-confidential`) com
 
 ### Testar
 
-```bash
-dotnet test
-```
+Para acessar o recurso 'webfrontend' você pode fazer login com o usuário `alice@acme.com` ou `bob@bar.com` (senha `123`).
 
 ### Requests de Exemplo
 
@@ -135,4 +133,3 @@ Use o arquivo `run.http` (com [REST Client](https://marketplace.visualstudio.com
 ## EF Core Migrations
 
 Utilize o Aspire para aplicar migrations utilizando o recurso `todos-migrations`.
-

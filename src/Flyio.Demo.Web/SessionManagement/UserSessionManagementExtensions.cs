@@ -21,7 +21,7 @@ public static class UserSessionManagementExtensions
 
                 options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Disable;
 
-                options.Scope.Add("offline_access");
+                options.Scope.Add("offline_access organization");
                 options.SaveTokens = true;
 
                 options.MapInboundClaims = false;

@@ -7,7 +7,6 @@ var password = builder.AddParameter("password", "admin");
 
 var keycloak = builder
     .AddKeycloak("keycloak", 8080, adminPassword: password)
-    .WithRealmImport("./keycloak/realms")
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume()
     ;
