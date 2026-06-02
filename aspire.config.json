@@ -1,5 +1,5 @@
 {
   "appHost": {
-    "path": "appHost.cs"
+    "path": "src/Flyio.Demo.AppHost/Flyio.Demo.AppHost.csproj"
   }
 }

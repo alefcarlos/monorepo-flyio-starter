@@ -1,15 +1,3 @@
-#:sdk Aspire.AppHost.Sdk@13.4.0
-#:property UserSecretsId=118ee23f-c5d9-4935-96c9-4991c066cb88
-
-#:project ./src/Flyio.Demo.Web/Flyio.Demo.Web.csproj
-#:project ./src/Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj
-#:project ./src/Flyio.Demo.Todos/Flyio.Demo.Todos.csproj
-
-#:package Aspire.Hosting.Docker
-#:package Aspire.Hosting.EntityFrameworkCore
-#:package Aspire.Hosting.Keycloak
-#:package Aspire.Hosting.PostgreSQL
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 var compose = builder.AddDockerComposeEnvironment("compose");

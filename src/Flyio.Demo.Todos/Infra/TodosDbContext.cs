@@ -20,17 +20,23 @@ public interface ITodosDbContext
 
 internal class TodosDbContext : DbContext, ITodosDbContext
 {
-    private readonly string _tenantId;
+    private readonly string? _tenantId;
     private readonly IDomainEventDispatcher? _dispatcher;
     readonly UpdateAuditableEntitiesInterceptor _updateAuditableEntitiesInterceptor = new();
     readonly SetTenantIdInterceptor _setTenantIdInterceptor = new();
 
     public TodosDbContext(DbContextOptions<TodosDbContext> options,
         IDomainEventDispatcher? dispatcher,
-        ITenantGetter tenantGetter) : base(options)
+        ITenantGetter? tenantGetter) : base(options)
     {
         _dispatcher = dispatcher;
-        _tenantId = tenantGetter.GetCurrentTenant();
+
+        if (!EF.IsDesignTime)
+        {
+            ArgumentNullException.ThrowIfNull(tenantGetter);
+
+            _tenantId = tenantGetter.GetCurrentTenant();
+        }
     }
 
     public DbSet<AuditTrailEntity> AuditTrails { get; set; }

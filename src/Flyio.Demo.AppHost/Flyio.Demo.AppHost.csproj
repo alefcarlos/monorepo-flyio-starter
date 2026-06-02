@@ -1,0 +1,22 @@
+﻿<Project Sdk="Aspire.AppHost.Sdk/13.4.0">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <UserSecretsId>118ee23f-c5d9-4935-96c9-4991c066cb88</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.Docker" />
+    <PackageReference Include="Aspire.Hosting.EntityFrameworkCore" />
+    <PackageReference Include="Aspire.Hosting.Keycloak" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flyio.Demo.Web\Flyio.Demo.Web.csproj" />
+    <ProjectReference Include="..\Flyio.Demo.ApiService\Flyio.Demo.ApiService.csproj" />
+    <ProjectReference Include="..\Flyio.Demo.Todos\Flyio.Demo.Todos.csproj" />
+  </ItemGroup>
+
+</Project>
