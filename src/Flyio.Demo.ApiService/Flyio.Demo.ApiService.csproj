@@ -3,8 +3,9 @@
 	<PropertyGroup>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<FlyAppName>apiservice</FlyAppName>
-	  <UserSecretsId>13e6dfb7-860b-4703-ab0f-ae7e75fcfbb5</UserSecretsId>
-  </PropertyGroup>
+		<UserSecretsId>13e6dfb7-860b-4703-ab0f-ae7e75fcfbb5</UserSecretsId>
+		<InterceptorsNamespaces>$(InterceptorsNamespaces);Microsoft.AspNetCore.OpenApi.Generated</InterceptorsNamespaces>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Ardalis.Result.FluentValidation" />
@@ -13,13 +14,13 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		  <PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Flyio.Demo.Heart\Flyio.Demo.Heart.csproj" />
-	  <ProjectReference Include="..\Flyio.Demo.Todos\Flyio.Demo.Todos.csproj" />
+		<ProjectReference Include="..\Flyio.Demo.Heart\Flyio.Demo.Heart.csproj" />
+		<ProjectReference Include="..\Flyio.Demo.Todos\Flyio.Demo.Todos.csproj" />
 	</ItemGroup>
 </Project>

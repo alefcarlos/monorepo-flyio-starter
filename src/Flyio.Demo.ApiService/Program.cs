@@ -10,10 +10,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args)
     .AddWebApiDefaults()
     ;
+
+builder.Services.Configure<ScalarOptions>(options => options.DisableAgent().DisableMcp());
+builder.Services.AddOpenApi("v1", options => options.AddScalarTransformers());
 
 builder.AddTodosModule();
 builder.AddHeartModule();

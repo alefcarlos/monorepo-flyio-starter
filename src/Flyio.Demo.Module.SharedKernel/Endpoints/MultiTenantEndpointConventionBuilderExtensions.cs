@@ -1,4 +1,5 @@
 using Flyio.Demo.Module.SharedKernel.Endpoints;
+using Scalar.AspNetCore;
 
 namespace Microsoft.AspNetCore.Builder;
 public static class MultiTenantEndpointConventionBuilderExtensions
@@ -9,6 +10,8 @@ public static class MultiTenantEndpointConventionBuilderExtensions
         {
             throw new ArgumentNullException(nameof(builder));
         }
+        
+        builder.WithBadge("MultiTenant", BadgePosition.Before);
 
         builder.RequireAuthorization()
             .Add((endpointBuilder) =>

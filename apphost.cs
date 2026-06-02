@@ -36,8 +36,8 @@ var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice"
     .WaitFor(keycloak)
     .WithHttpHealthCheck("/health");
 
-// var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
-//     .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
+var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
+    .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
 
 builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
     .WithExternalHttpEndpoints()
