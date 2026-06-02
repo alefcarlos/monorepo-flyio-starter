@@ -12,6 +12,7 @@ public static class Extensions
     {
         var group = endpoints.MapGroup("v1/todos")
             .WithTags("Todos")
+            .RequireTenant()
             ;
 
         group.MapCreateTodo();

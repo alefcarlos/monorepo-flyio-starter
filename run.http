@@ -13,12 +13,12 @@ grant_type=client_credentials
 
 ###
 
-GET https://localhost:7386/v1/todos
+GET https://localhost:7386/whoami
 Authorization: Bearer {{token}}
 
 ###
 
-GET https://localhost:7386/whoami
+GET https://localhost:7386/v1/todos
 Authorization: Bearer {{token}}
 
 ###

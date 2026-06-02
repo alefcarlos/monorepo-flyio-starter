@@ -1,12 +1,14 @@
 using FluentValidation;
 using Flyio.Demo.ApiService;
 using Flyio.Demo.Heart;
+using Flyio.Demo.Module.SharedKernel.Endpoints;
 using Flyio.Demo.Module.SharedKernel.Infra;
 using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Todos;
 using Flyio.Demo.Todos.Infra;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args)
@@ -48,6 +50,12 @@ builder.Authentication
     .Schemes
     .AddJwtBearer();
 
+builder.Services.AddAuthorization(opt => opt.DefaultPolicy = new AuthorizationPolicyBuilder()
+     .TenantWhenRequired()
+     .RequireAuthenticatedUser()
+     .Build());
+
+builder.Services.AddSingleton<IAuthorizationHandler, TenantRequirementHandler>();
 builder.Services.AddTransient<IClaimsTransformation, KeycloakRolesClaimsTransformation>();
 
 var app = builder.Build();
