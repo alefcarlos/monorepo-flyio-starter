@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.1.5" />
     <PackageVersion Include="AlefCarlos.AspNetCoreDefaults" Version="1.1.5" />
-    <PackageVersion Include="Aspire.Hosting.Docker" Version="13.4.0" />
+    <PackageVersion Include="Aspire.Hosting.Docker" Version="13.4.2" />
     <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.4.0-preview.1.26281.18" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.4.0" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.4.0" />
