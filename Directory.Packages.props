@@ -21,7 +21,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.2" />
     <PackageVersion Include="Scalar.AspNetCore.Microsoft" Version="2.16.4" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.1.0-rc.1" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.1.0-rc.1" />
