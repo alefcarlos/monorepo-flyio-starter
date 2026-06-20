@@ -13,7 +13,7 @@
     <PackageVersion Include="Aspire.Hosting.Docker" Version="13.4.5" />
     <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.4.5-preview.1.26316.12" />
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.4.5" />
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.4.5" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.4.6" />
     <PackageVersion Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.8" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
