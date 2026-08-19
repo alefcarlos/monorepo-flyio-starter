@@ -1,3 +1,5 @@
+using Flyio.Demo.AppHost;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var compose = builder.AddDockerComposeEnvironment("compose");
@@ -31,5 +33,7 @@ builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WaitFor(apiService);
+
+builder.AddTerraform("terraform", "../../terraform");
 
 builder.Build().Run();
