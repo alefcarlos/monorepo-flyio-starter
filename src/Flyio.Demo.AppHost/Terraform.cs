@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using Aspire.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Flyio.Demo.AppHost;
@@ -20,6 +20,8 @@ public sealed class TerraformResource : Resource
         ExecuteCommandContext context,
         params string[] arguments)
     {
+        var notification = context.Services.GetRequiredService<ResourceNotificationService>();
+
         var process = new Process
         {
             StartInfo = new ProcessStartInfo
@@ -37,49 +39,82 @@ public sealed class TerraformResource : Resource
             process.StartInfo.ArgumentList.Add(argument);
         }
 
-        process.Start();
+        await notification.PublishUpdateAsync(
+            this,
+            state => state with
+            {
+                State = KnownResourceStates.Running,
+                StartTimeStamp = DateTime.UtcNow
+            });
 
-        var stdout = process.StandardOutput.ReadToEndAsync();
-        var stderr = process.StandardError.ReadToEndAsync();
-
-        await process.WaitForExitAsync(context.CancellationToken);
-
-        var output = await stdout;
-        var error = await stderr;
-
-        if (!string.IsNullOrWhiteSpace(output))
+        try
         {
-            context.Logger.LogInformation("{Output}", output);
-        }
+            process.Start();
 
-        if (!string.IsNullOrWhiteSpace(error))
+            var stdout = process.StandardOutput.ReadToEndAsync();
+            var stderr = process.StandardError.ReadToEndAsync();
+
+            await process.WaitForExitAsync(context.CancellationToken);
+
+            var output = await stdout;
+            var error = await stderr;
+
+            if (!string.IsNullOrWhiteSpace(output))
+            {
+                context.Logger.LogInformation("{Output}", output);
+            }
+
+            if (!string.IsNullOrWhiteSpace(error))
+            {
+                context.Logger.LogError("{Error}", error);
+            }
+
+            return process.ExitCode == 0
+                ? CommandResults.Success()
+                : CommandResults.Failure(
+                    $"terraform {string.Join(' ', arguments)} failed with exit code {process.ExitCode}");
+        }
+        finally
         {
-            context.Logger.LogError("{Error}", error);
+            await notification.PublishUpdateAsync(
+                this,
+                state => state with
+                {
+                    State = KnownResourceStates.Finished,
+                    StopTimeStamp = DateTime.UtcNow
+                });
         }
-
-        return process.ExitCode == 0
-            ? CommandResults.Success()
-            : CommandResults.Failure(
-                $"terraform {string.Join(' ', arguments)} failed with exit code {process.ExitCode}");
     }
 }
+
 public static class TerraformExtensions
 {
     public static IResourceBuilder<TerraformResource> AddTerraform(
         this IDistributedApplicationBuilder builder,
-        string name,
+        [ResourceName] string name,
         string workingDirectory)
     {
-        var absoluteWorkingDirectory = Path.GetFullPath(
-            Path.Combine(
-                builder.AppHostDirectory,
-                workingDirectory));
+        ArgumentNullException.ThrowIfNull(builder);
+        ArgumentNullException.ThrowIfNull(name);
+        ArgumentNullException.ThrowIfNull(workingDirectory);
+
+        var absoluteWorkingDirectory = Path.GetFullPath(Path.Combine(builder.AppHostDirectory, workingDirectory));
 
         var resource = new TerraformResource(
             name,
             absoluteWorkingDirectory);
 
         var resourceBuilder = builder.AddResource(resource);
+
+        resourceBuilder.WithInitialState(new CustomResourceSnapshot
+        {
+            ResourceType = "TerraformCommander",
+            CreationTimeStamp = DateTime.UtcNow,
+            State = KnownResourceStates.NotStarted,
+            Properties = [
+                new(CustomResourceKnownProperties.Source, "Terraform Commander")
+            ]
+        });
 
         resourceBuilder
             .WithCommand(
