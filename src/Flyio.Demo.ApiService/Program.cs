@@ -1,7 +1,6 @@
 using FluentValidation;
 using Flyio.Demo.ApiService;
 using Flyio.Demo.Heart;
-using Flyio.Demo.Module.SharedKernel.Endpoints;
 using Flyio.Demo.Module.SharedKernel.Infra;
 using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Todos;
