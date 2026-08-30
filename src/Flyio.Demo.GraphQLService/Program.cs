@@ -14,6 +14,7 @@ builder.AddGraphQL()
 
 builder.Authentication
     .AddJwtBearerDefaults()
+    // .SetDefaultScheme(JwtBearerDefaults.AuthenticationScheme)
     .Schemes
     .AddJwtBearer();
 
