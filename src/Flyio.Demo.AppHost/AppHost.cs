@@ -26,6 +26,8 @@ var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice"
     .WithHttpHealthCheck("/health");
 
 var graphQLService = builder.AddProject<Projects.Flyio_Demo_GraphQLService>("graphqlservice")
+    .WithReference(postgresdb)
+    .WaitFor(postgresdb)
     .WithHttpHealthCheck("/health")
     ;
 

@@ -6,7 +6,6 @@ using Flyio.Demo.SharedKernel;
 using Flyio.Demo.Todos;
 using Flyio.Demo.Todos.Infra;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpLogging;
 using Scalar.AspNetCore;

@@ -11,6 +11,7 @@
   <ItemGroup Condition="'$(IsModule)' == 'true'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <InternalsVisibleTo Include="Flyio.Demo.ApiService" />
+    <InternalsVisibleTo Include="Flyio.Demo.GraphQLService" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsModule)' == 'true'">
