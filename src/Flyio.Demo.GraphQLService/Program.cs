@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +12,17 @@ builder.AddGraphQL()
     .AddMutationConventions()
     .AddTypes();
 
+builder.Authentication
+    .AddJwtBearerDefaults()
+    .Schemes
+    .AddJwtBearer();
+
 builder.Services.AddOpenTelemetry().WithTracing(tracing => tracing.AddHotChocolateInstrumentation());
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapGraphQL("/");
 

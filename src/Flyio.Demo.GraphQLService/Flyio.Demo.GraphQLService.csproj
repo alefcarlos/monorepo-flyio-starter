@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <SchemaDir>$(MSBuildProjectDirectory)/../../tests/Flyio.Demo.GraphQLService.Tests/Client</SchemaDir>
+    <UserSecretsId>0f869f52-5278-43bf-bace-2fe03fd62533</UserSecretsId>
   </PropertyGroup>
 
   <Target Name="ExportGraphQLSchema" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
@@ -13,7 +14,7 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="HotChocolate.AspNetCore"/>
+    <PackageReference Include="HotChocolate.AspNetCore" />
     <PackageReference Include="HotChocolate.AspNetCore.CommandLine" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" />
     <PackageReference Include="HotChocolate.Diagnostics" />
