@@ -14,7 +14,7 @@ public class MeQueryTests : IClassFixture<AuthorizedWebApplicationFactory>
     }
 
     [Fact]
-    public async Task Reponse_ShouldBeUnauthorized()
+    public async Task Reponse_ShouldBeOk()
     {
         //Arrange
         string[] expectedClaims = [ClaimTypes.Role, "organization"];

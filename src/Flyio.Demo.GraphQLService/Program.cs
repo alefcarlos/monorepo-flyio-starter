@@ -13,8 +13,6 @@ builder.AddGraphQL()
     .AddTypes();
 
 builder.Authentication
-    .AddJwtBearerDefaults()
-    // .SetDefaultScheme(JwtBearerDefaults.AuthenticationScheme)
     .Schemes
     .AddJwtBearer();
 

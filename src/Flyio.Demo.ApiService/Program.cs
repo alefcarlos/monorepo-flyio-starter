@@ -49,7 +49,6 @@ builder.Services.Configure<HttpLoggingOptions>(options =>
 
 builder.Authentication
     .AddJwtBearerDefaults()
-    .SetDefaultScheme(JwtBearerDefaults.AuthenticationScheme)
     .Schemes
     .AddJwtBearer();
 
