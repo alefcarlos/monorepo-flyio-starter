@@ -1,14 +1,23 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type Query {
-  todoById(id: UUID!): TodoEntity @cost(weight: "10")
+  todoById(id: UUID!): TodoEntity @authorize @cost(weight: "10")
   todos(
     where: TodoEntityFilterInput @cost(weight: "10")
     order: [TodoEntitySortInput!] @cost(weight: "10")
   ): [TodoEntity!]! @authorize @cost(weight: "10")
   me: MeResponse! @authorize
+}
+
+type Mutation {
+  addTodo(input: AddTodoInput!): AddTodoPayload! @authorize @cost(weight: "10")
+}
+
+type AddTodoPayload {
+  todoEntity: TodoEntity
 }
 
 type DomainEventBase {
@@ -82,6 +91,10 @@ type ValidationError {
   errorMessage: String
   errorCode: String
   severity: ValidationSeverity!
+}
+
+input AddTodoInput {
+  name: String!
 }
 
 input BooleanOperationFilterInput {
