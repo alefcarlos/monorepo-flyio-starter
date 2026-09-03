@@ -1,5 +1,4 @@
 using Ardalis.Result;
-using Flyio.Demo.Todos.Contracts;
 using Flyio.Demo.Todos.Domain;
 using Flyio.Demo.Todos.Infra;
 using Mediator;
@@ -17,13 +16,13 @@ internal class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<Tod
 
     public async ValueTask<Result<TodoEntity>> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
     {
-        return Result.Invalid(new ValidationError("aconteceu um erro fodase"));
-
-        // var entity = TodoEntity.CreateNew(command.Name);
-
-        // _dbContext.Todos.Add(entity);
-        // await _dbContext.SaveChangesAsync(cancellationToken);
-
-        // return Result.Created(Result.Success(entity));
+        return await TodoEntity.CreateNew(command.Name)
+            .BindAsync(async entity =>
+            {
+                _dbContext.Todos.Add(entity);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                return Result.Success(entity);
+            })
+            .BindAsync(entity => Result.Created(entity));
     }
 }

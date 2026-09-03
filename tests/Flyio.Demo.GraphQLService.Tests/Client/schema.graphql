@@ -14,6 +14,9 @@ type Query {
 
 type Mutation {
   addTodo(input: AddTodoInput!): AddTodoPayload! @authorize @cost(weight: "10")
+  setTodoDone(input: SetTodoDoneInput!): SetTodoDonePayload!
+    @authorize
+    @cost(weight: "10")
 }
 
 type AddTodoPayload {
@@ -26,6 +29,10 @@ type DomainEventBase {
 }
 
 type GraphQLConflictError implements Error {
+  message: String!
+}
+
+type GraphQLNotFoundError implements Error {
   message: String!
 }
 
@@ -58,10 +65,10 @@ type PagedInfo {
   totalRecords: Long!
 }
 
-type PagedResultOfResult {
-  toPagedResult(pagedInfo: PagedInfoInput): PagedResultOfResult
+type PagedResultOfTodoEntity {
+  toPagedResult(pagedInfo: PagedInfoInput): PagedResultOfTodoEntity
   pagedInfo: PagedInfo
-  value: Result
+  value: TodoEntity
   status: ResultStatus!
   isSuccess: Boolean!
   successMessage: String
@@ -71,9 +78,9 @@ type PagedResultOfResult {
   validationErrors: [ValidationError]
 }
 
-type Result {
-  toPagedResult(pagedInfo: PagedInfoInput): PagedResultOfResult
-  value: Result
+type ResultOfTodoEntity {
+  toPagedResult(pagedInfo: PagedInfoInput): PagedResultOfTodoEntity
+  value: TodoEntity
   status: ResultStatus!
   isSuccess: Boolean!
   successMessage: String
@@ -81,10 +88,15 @@ type Result {
   location: String
   errors: [String]
   validationErrors: [ValidationError]
+}
+
+type SetTodoDonePayload {
+  todoResponse: TodoResponse
+  errors: [SetTodoDoneError!]
 }
 
 type TodoEntity {
-  setDone: Result!
+  setDone: ResultOfTodoEntity!
   id: TodoId!
   name: String!
   done: Boolean!
@@ -121,6 +133,11 @@ interface Error {
 union AddTodoError =
   | GraphQLValidationError
   | GraphQLConflictError
+  | GraphQLResultErrorError
+
+union SetTodoDoneError =
+  | GraphQLConflictError
+  | GraphQLNotFoundError
   | GraphQLResultErrorError
 
 input AddTodoInput {
@@ -165,6 +182,10 @@ input PagedInfoInput {
   pageSize: Long!
   totalPages: Long!
   totalRecords: Long!
+}
+
+input SetTodoDoneInput {
+  id: UUID!
 }
 
 input StringOperationFilterInput {
