@@ -1,4 +1,5 @@
 using Ardalis.Result;
+using Flyio.Demo.GraphQLService.Types.Errors;
 using IResult = Ardalis.Result.IResult;
 
 namespace Flyio.Demo.GraphQLService;
