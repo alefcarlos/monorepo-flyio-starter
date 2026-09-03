@@ -18,6 +18,6 @@ public static partial class Mutation
     {
         var result = await mediator.Send(new CreateTodoCommand(name), ct);
 
-        return result.EnsureSuccess().Map((data) => TodoResponse.FromEntity(result.Value));
+        return result.EnsureSuccess().Map(TodoResponse.FromEntity);
     }
 }
