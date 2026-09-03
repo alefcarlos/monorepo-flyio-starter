@@ -25,7 +25,7 @@ public sealed class AspireFixture : IAsyncLifetime
     public async ValueTask InitializeAsync()
     {
         var appHost = await DistributedApplicationTestingBuilder.CreateAsync<Projects.Flyio_Demo_AppHost>();
-        appHost.RemoveAnnotations();
+        appHost.DisableContainerPersistence();
 
         _app = await appHost.BuildAsync(CancellationToken.None)
             .WaitAsync(DefaultTimeout, CancellationToken.None);
@@ -62,7 +62,7 @@ internal static class DistributedApplicationTestingBuilderExtensions
 {
     extension(IDistributedApplicationTestingBuilder builder)
     {
-        internal void RemoveAnnotations()
+        internal void DisableContainerPersistence()
         {
             foreach (var resource in builder.Resources)
             {

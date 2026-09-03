@@ -1,6 +1,5 @@
 using AwesomeAssertions;
 using Flyio.Demo.GraphQLService.Tests.Client;
-using Microsoft;
 
 namespace Flyio.Demo.GraphQLService.Tests;
 
@@ -26,5 +25,22 @@ public class MutationTests
         response.Data.Should().NotBeNull();
         response.Data.AddTodo.TodoResponse.Should().NotBeNull();
         response.Data.AddTodo.TodoResponse.Name.Should().Be(nameof(AddTodo_ShouldBeOk));
+        response.Errors.Should().BeEmpty();
+        response.Data.AddTodo.Errors.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task AddTodo_ShouldBeInvalid_WhenNameIsEmpty()
+    {
+        //Arrange
+
+        //Act
+        var response = await _client.AddTodo.ExecuteAsync("", TestContext.Current.CancellationToken);
+
+        //Assert
+        response.Data.Should().NotBeNull();
+        response.Data.AddTodo.TodoResponse.Should().BeNull();
+        response.Errors.Should().BeEmpty();
+        response.Data.AddTodo.Errors.Should().ContainSingle();
     }
 }

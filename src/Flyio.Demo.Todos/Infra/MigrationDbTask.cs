@@ -17,6 +17,12 @@ public class MigrationDbTask : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         using var scope = _sp.CreateScope();
+
+        if (scope.ServiceProvider.GetService<ISkipMigrations>() is not null)
+        {
+            return;
+        }
+
         var options = scope.ServiceProvider.GetRequiredService<DbContextOptions<TodosDbContext>>();
 
         using var context = new TodosDbContext(options, dispatcher: null, tenantGetter: new TenantStub());
@@ -33,3 +39,5 @@ file class TenantStub : ITenantGetter
 {
     public string GetCurrentTenant() => "stub";
 }
+
+public interface ISkipMigrations;

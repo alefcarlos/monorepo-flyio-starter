@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using Flyio.Demo.GraphQLService.Tests.Client;
+using Flyio.Demo.Todos.Infra;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -11,12 +12,15 @@ using Microsoft.Extensions.Options;
 
 namespace Flyio.Demo.GraphQLService.Tests;
 
+file class Stub : ISkipMigrations;
+
 public class AuthorizedWebApplicationFactory : WebApplicationFactory<IGraphQLService>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
         {
+            services.AddSingleton<ISkipMigrations, Stub>();
             services.Configure<AuthenticationOptions>(x => x.SchemeMap["Bearer"].HandlerType = typeof(ViewerAuthenticationHandler));
         });
     }

@@ -1,9 +1,12 @@
 using Flyio.Demo.GraphQLService.Tests.Client;
+using Flyio.Demo.Todos.Infra;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Flyio.Demo.GraphQLService.Tests;
+
+file class Stub : ISkipMigrations;
 
 public class UnauthorizedWebApplicationFactory : WebApplicationFactory<IGraphQLService>
 {
@@ -11,6 +14,7 @@ public class UnauthorizedWebApplicationFactory : WebApplicationFactory<IGraphQLS
     {
         builder.ConfigureServices(services =>
         {
+            services.AddSingleton<ISkipMigrations, Stub>();
             // services.AddSingleton<IStockService, StockServiceFake>();
         });
     }
