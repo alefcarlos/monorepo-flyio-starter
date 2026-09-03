@@ -17,11 +17,25 @@ type Mutation {
 }
 
 type AddTodoPayload {
-  todoEntity: TodoEntity
+  todoResponse: TodoResponse
+  errors: [AddTodoError!]
 }
 
 type DomainEventBase {
   dateOccurred: DateTime!
+}
+
+type GraphQLConflictError implements Error {
+  message: String!
+}
+
+type GraphQLResultErrorError implements Error {
+  message: String!
+}
+
+type GraphQLValidationError implements Error {
+  message: String!
+  errors: [ValidationError!]!
 }
 
 type KeyValuePairOfStringAndString {
@@ -86,12 +100,28 @@ type TodoId {
   value: UUID!
 }
 
+type TodoResponse {
+  id: UUID!
+  name: String!
+  done: Boolean!
+  createdAt: DateTime!
+}
+
 type ValidationError {
   identifier: String
   errorMessage: String
   errorCode: String
   severity: ValidationSeverity!
 }
+
+interface Error {
+  message: String!
+}
+
+union AddTodoError =
+  | GraphQLValidationError
+  | GraphQLConflictError
+  | GraphQLResultErrorError
 
 input AddTodoInput {
   name: String!

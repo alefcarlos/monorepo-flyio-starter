@@ -6,7 +6,7 @@ using Mediator;
 
 namespace Flyio.Demo.Todos.UseCases.Create;
 
-internal class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<TodoId>>
+internal class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<TodoEntity>>
 {
     private readonly ITodosDbContext _dbContext;
 
@@ -15,13 +15,15 @@ internal class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<Tod
         _dbContext = dbContext;
     }
 
-    public async ValueTask<Result<TodoId>> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Result<TodoEntity>> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
     {
-        var entity = TodoEntity.CreateNew(command.Name);
+        return Result.Invalid(new ValidationError("aconteceu um erro fodase"));
 
-        _dbContext.Todos.Add(entity);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        // var entity = TodoEntity.CreateNew(command.Name);
 
-        return Result.Created(Result.Success(entity.Id));
+        // _dbContext.Todos.Add(entity);
+        // await _dbContext.SaveChangesAsync(cancellationToken);
+
+        // return Result.Created(Result.Success(entity));
     }
 }

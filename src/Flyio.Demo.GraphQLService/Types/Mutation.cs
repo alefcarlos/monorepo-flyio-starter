@@ -1,6 +1,9 @@
-using Flyio.Demo.Todos.Domain;
-using Flyio.Demo.Todos.Infra;
+using Ardalis.Result;
+using Flyio.Demo.GraphQLService.Types.Errors;
+using Flyio.Demo.Todos.Endpoints.Responses;
+using Flyio.Demo.Todos.UseCases.Create;
 using HotChocolate.Authorization;
+using Mediator;
 
 namespace Flyio.Demo.GraphQLService.Types;
 
@@ -8,12 +11,13 @@ namespace Flyio.Demo.GraphQLService.Types;
 public static partial class Mutation
 {
     [Authorize]
-    public static async Task<TodoEntity> AddTodoAsync(ITodosDbContext context, string name, CancellationToken ct)
+    [Error(typeof(GraphQLValidationException))]
+    [Error(typeof(GraphQLConflictException))]
+    [Error(typeof(GraphQLResultErrorException))]
+    public static async Task<TodoResponse> AddTodoAsync(IMediator mediator, string name, CancellationToken ct)
     {
-        var entity = TodoEntity.CreateNew(name);
+        var result = await mediator.Send(new CreateTodoCommand(name), ct);
 
-        context.Todos.Add(entity);
-        await context.SaveChangesAsync(ct);
-        return entity;
-    } 
+        return result.EnsureSuccess().Map((data) => TodoResponse.FromEntity(result.Value));
+    }
 }
