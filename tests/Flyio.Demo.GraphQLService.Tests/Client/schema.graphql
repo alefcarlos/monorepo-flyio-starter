@@ -1,0 +1,319 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Query {
+  todoById(id: UUID!): TodoEntity @authorize @cost(weight: "10")
+  todos(
+    where: TodoEntityFilterInput @cost(weight: "10")
+    order: [TodoEntitySortInput!] @cost(weight: "10")
+  ): [TodoEntity!]! @authorize @cost(weight: "10")
+  me: MeResponse! @authorize
+}
+
+type Mutation {
+  addTodo(input: AddTodoInput!): AddTodoPayload! @authorize @cost(weight: "10")
+  setTodoDone(input: SetTodoDoneInput!): SetTodoDonePayload!
+    @authorize
+    @cost(weight: "10")
+}
+
+type AddTodoPayload {
+  todoResponse: TodoResponse
+  errors: [AddTodoError!]
+}
+
+type DomainEventBase {
+  dateOccurred: DateTime!
+}
+
+type GraphQLConflictError implements Error {
+  message: String!
+}
+
+type GraphQLNotFoundError implements Error {
+  message: String!
+}
+
+type GraphQLResultErrorError implements Error {
+  message: String!
+}
+
+type GraphQLValidationError implements Error {
+  message: String!
+  errors: [ValidationError!]!
+}
+
+type KeyValuePairOfStringAndString {
+  key: String!
+  value: String!
+}
+
+type MeResponse {
+  claims: [KeyValuePairOfStringAndString!]!
+}
+
+type PagedInfo {
+  setPageNumber(pageNumber: Long!): PagedInfo
+  setPageSize(pageSize: Long!): PagedInfo
+  setTotalPages(totalPages: Long!): PagedInfo
+  setTotalRecords(totalRecords: Long!): PagedInfo
+  pageNumber: Long!
+  pageSize: Long!
+  totalPages: Long!
+  totalRecords: Long!
+}
+
+type PagedResultOfTodoEntity {
+  toPagedResult(pagedInfo: PagedInfoInput): PagedResultOfTodoEntity
+  pagedInfo: PagedInfo
+  value: TodoEntity
+  status: ResultStatus!
+  isSuccess: Boolean!
+  successMessage: String
+  correlationId: String
+  location: String
+  errors: [String]
+  validationErrors: [ValidationError]
+}
+
+type ResultOfTodoEntity {
+  toPagedResult(pagedInfo: PagedInfoInput): PagedResultOfTodoEntity
+  value: TodoEntity
+  status: ResultStatus!
+  isSuccess: Boolean!
+  successMessage: String
+  correlationId: String
+  location: String
+  errors: [String]
+  validationErrors: [ValidationError]
+}
+
+type SetTodoDonePayload {
+  todoResponse: TodoResponse
+  errors: [SetTodoDoneError!]
+}
+
+type TodoEntity {
+  setDone: ResultOfTodoEntity!
+  id: TodoId!
+  name: String!
+  done: Boolean!
+  createdBy: String!
+  createdAt: DateTime!
+  modifiedBy: String
+  modifiedAt: DateTime
+  domainEvents: [DomainEventBase!]!
+  tenantId: String!
+}
+
+type TodoId {
+  value: UUID!
+}
+
+type TodoResponse {
+  id: UUID!
+  name: String!
+  done: Boolean!
+  createdAt: DateTime!
+}
+
+type ValidationError {
+  identifier: String
+  errorMessage: String
+  errorCode: String
+  severity: ValidationSeverity!
+}
+
+interface Error {
+  message: String!
+}
+
+union AddTodoError =
+  | GraphQLValidationError
+  | GraphQLConflictError
+  | GraphQLResultErrorError
+
+union SetTodoDoneError =
+  | GraphQLConflictError
+  | GraphQLNotFoundError
+  | GraphQLResultErrorError
+
+input AddTodoInput {
+  name: String!
+}
+
+input BooleanOperationFilterInput {
+  eq: Boolean @cost(weight: "10")
+  neq: Boolean @cost(weight: "10")
+}
+
+input DateTimeOperationFilterInput {
+  eq: DateTime @cost(weight: "10")
+  neq: DateTime @cost(weight: "10")
+  in: [DateTime] @cost(weight: "10")
+  nin: [DateTime] @cost(weight: "10")
+  gt: DateTime @cost(weight: "10")
+  ngt: DateTime @cost(weight: "10")
+  gte: DateTime @cost(weight: "10")
+  ngte: DateTime @cost(weight: "10")
+  lt: DateTime @cost(weight: "10")
+  nlt: DateTime @cost(weight: "10")
+  lte: DateTime @cost(weight: "10")
+  nlte: DateTime @cost(weight: "10")
+}
+
+input DomainEventBaseFilterInput {
+  and: [DomainEventBaseFilterInput!]
+  or: [DomainEventBaseFilterInput!]
+  dateOccurred: DateTimeOperationFilterInput
+}
+
+input ListFilterInputTypeOfDomainEventBaseFilterInput {
+  all: DomainEventBaseFilterInput @cost(weight: "10")
+  none: DomainEventBaseFilterInput @cost(weight: "10")
+  some: DomainEventBaseFilterInput @cost(weight: "10")
+  any: Boolean @cost(weight: "10")
+}
+
+input PagedInfoInput {
+  pageNumber: Long!
+  pageSize: Long!
+  totalPages: Long!
+  totalRecords: Long!
+}
+
+input SetTodoDoneInput {
+  id: UUID!
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String @cost(weight: "10")
+  neq: String @cost(weight: "10")
+  contains: String @cost(weight: "20")
+  ncontains: String @cost(weight: "20")
+  in: [String] @cost(weight: "10")
+  nin: [String] @cost(weight: "10")
+  startsWith: String @cost(weight: "20")
+  nstartsWith: String @cost(weight: "20")
+  endsWith: String @cost(weight: "20")
+  nendsWith: String @cost(weight: "20")
+}
+
+input TodoEntityFilterInput {
+  and: [TodoEntityFilterInput!]
+  or: [TodoEntityFilterInput!]
+  id: TodoIdFilterInput
+  name: StringOperationFilterInput
+  done: BooleanOperationFilterInput
+  createdBy: StringOperationFilterInput
+  createdAt: DateTimeOperationFilterInput
+  modifiedBy: StringOperationFilterInput
+  modifiedAt: DateTimeOperationFilterInput
+  domainEvents: ListFilterInputTypeOfDomainEventBaseFilterInput
+  tenantId: StringOperationFilterInput
+}
+
+input TodoEntitySortInput {
+  id: SortEnumType @cost(weight: "10")
+  name: SortEnumType @cost(weight: "10")
+  done: SortEnumType @cost(weight: "10")
+  createdBy: SortEnumType @cost(weight: "10")
+  createdAt: SortEnumType @cost(weight: "10")
+  modifiedBy: SortEnumType @cost(weight: "10")
+  modifiedAt: SortEnumType @cost(weight: "10")
+  tenantId: SortEnumType @cost(weight: "10")
+}
+
+input TodoIdFilterInput {
+  and: [TodoIdFilterInput!]
+  or: [TodoIdFilterInput!]
+  value: UuidOperationFilterInput
+}
+
+input UuidOperationFilterInput {
+  eq: UUID @cost(weight: "10")
+  neq: UUID @cost(weight: "10")
+  in: [UUID] @cost(weight: "10")
+  nin: [UUID] @cost(weight: "10")
+  gt: UUID @cost(weight: "10")
+  ngt: UUID @cost(weight: "10")
+  gte: UUID @cost(weight: "10")
+  ngte: UUID @cost(weight: "10")
+  lt: UUID @cost(weight: "10")
+  nlt: UUID @cost(weight: "10")
+  lte: UUID @cost(weight: "10")
+  nlte: UUID @cost(weight: "10")
+}
+
+"Defines when a policy shall be executed."
+enum ApplyPolicy {
+  "Before the resolver was executed."
+  BEFORE_RESOLVER
+  "After the resolver was executed."
+  AFTER_RESOLVER
+  "The policy is applied in the validation step before the execution."
+  VALIDATION
+}
+
+enum ResultStatus {
+  OK
+  CREATED
+  ERROR
+  FORBIDDEN
+  UNAUTHORIZED
+  INVALID
+  NOT_FOUND
+  NO_CONTENT
+  CONFLICT
+  CRITICAL_ERROR
+  UNAVAILABLE
+}
+
+enum SortEnumType {
+  ASC
+  DESC
+}
+
+enum ValidationSeverity {
+  ERROR
+  WARNING
+  INFO
+}
+
+"The `DateTime` scalar type represents a date and time with time zone offset information."
+scalar DateTime
+  @specifiedBy(url: "https://scalars.graphql.org/chillicream/date-time.html")
+
+"The `Long` scalar type represents a signed 64-bit integer."
+scalar Long
+  @specifiedBy(url: "https://scalars.graphql.org/chillicream/long.html")
+
+"The `UUID` scalar type represents a Universally Unique Identifier (UUID) as defined by RFC 9562."
+scalar UUID
+  @specifiedBy(url: "https://scalars.graphql.org/chillicream/uuid.html")
+
+"The authorize directive."
+directive @authorize(
+  "The name of the authorization policy that determines access to the annotated resource."
+  policy: String
+  "Roles that are allowed to access the annotated resource."
+  roles: [String!]
+  "Defines when the authorize directive shall be applied. By default the authorize directive is applied before the resolver is executed."
+  apply: ApplyPolicy! = BEFORE_RESOLVER
+) repeatable on OBJECT | FIELD_DEFINITION
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost(
+  "The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc."
+  weight: String!
+) on
+  | SCALAR
+  | OBJECT
+  | FIELD_DEFINITION
+  | ARGUMENT_DEFINITION
+  | ENUM
+  | INPUT_FIELD_DEFINITION

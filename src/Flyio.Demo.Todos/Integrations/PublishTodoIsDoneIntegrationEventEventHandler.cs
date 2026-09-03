@@ -18,6 +18,6 @@ public class PublishTodoIsDoneIntegrationEventEventHandler : NotificationHandler
     {
         var integrationEvent = new TodoIsDoneIntegrationEvent(notification.Id);
 
-        await _mediator.Publish(integrationEvent);
+        await _mediator.Publish(integrationEvent, cancellationToken);
     }
 }

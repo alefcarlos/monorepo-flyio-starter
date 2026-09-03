@@ -21,6 +21,6 @@ public static class Extensions
     {
         var result = await mediator.Send(new CreateTodoCommand(request.Name));
 
-        return result.ToCreated((value) => $"/v1/todos/{value.Value}", (id) => id.Value);
+        return result.ToCreated((value) => $"/v1/todos/{value.Id.Value}", (entity) => entity.Id.Value);
     }
 }

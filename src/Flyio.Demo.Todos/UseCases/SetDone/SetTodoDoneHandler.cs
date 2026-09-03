@@ -1,10 +1,11 @@
 using Ardalis.Result;
+using Flyio.Demo.Todos.Domain;
 using Flyio.Demo.Todos.Infra;
 using Mediator;
 
 namespace Flyio.Demo.Todos.UseCases.SetDone;
 
-internal class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result>
+internal class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result<TodoEntity>>
 {
     private readonly ITodosDbContext _dbContext;
 
@@ -13,23 +14,20 @@ internal class SetTodoDoneHandler : ICommandHandler<SetTodoDoneCommand, Result>
         _dbContext = dbContext;
     }
 
-    public async ValueTask<Result> Handle(SetTodoDoneCommand command, CancellationToken cancellationToken)
+    public async ValueTask<Result<TodoEntity>> Handle(SetTodoDoneCommand command, CancellationToken cancellationToken)
     {
-        var entity = _dbContext.Todos.FirstOrDefault(x=>x.Id == command.Id);
+        var entity = _dbContext.Todos.FirstOrDefault(x => x.Id == command.Id);
 
         if (entity is null)
         {
-            return Result.NotFound();
+            return Result.NotFound("Todo não encontrado");
         }
 
-
-        if (entity.SetDone() is { Status: ResultStatus.Error } r)
-        {
-            return r;
-        }
-
-        await _dbContext.SaveChangesAsync(cancellationToken);
-
-        return Result.Success();
+        return await entity.SetDone()
+            .BindAsync(async e =>
+            {
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                return Result.Success(e);
+            });
     }
 }

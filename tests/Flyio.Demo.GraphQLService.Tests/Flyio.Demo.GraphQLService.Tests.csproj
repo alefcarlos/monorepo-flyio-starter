@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Flyio.Demo.GraphQLService.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions.Web" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="StrawberryShake.Server" />
+    <PackageReference Include="Aspire.Hosting.Testing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Flyio.Demo.AppHost\Flyio.Demo.AppHost.csproj" />
+    <ProjectReference Include="..\..\src\Flyio.Demo.GraphQLService\Flyio.Demo.GraphQLService.csproj" />
+  </ItemGroup>
+</Project>

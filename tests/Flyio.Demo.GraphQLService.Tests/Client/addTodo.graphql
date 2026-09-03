@@ -1,0 +1,24 @@
+mutation AddTodo($name: String!) {
+  addTodo(input: { name: $name }) {
+    errors {
+      ... on GraphQLConflictError {
+        message
+      }
+      ... on GraphQLResultErrorError {
+        message
+      }
+      ... on GraphQLValidationError {
+        message
+        errors{
+          errorMessage
+        }
+      }
+    }
+    todoResponse {
+      createdAt
+      done
+      id
+      name
+    }
+  }
+}

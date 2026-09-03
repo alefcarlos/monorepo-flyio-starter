@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.5.0">
+<Project Sdk="Aspire.AppHost.Sdk/13.5.3">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Flyio.Demo.GraphQLService\Flyio.Demo.GraphQLService.csproj" />
     <ProjectReference Include="..\Flyio.Demo.Web\Flyio.Demo.Web.csproj" />
     <ProjectReference Include="..\Flyio.Demo.ApiService\Flyio.Demo.ApiService.csproj" />
     <ProjectReference Include="..\Flyio.Demo.Todos\Flyio.Demo.Todos.csproj" />

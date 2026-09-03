@@ -8,6 +8,13 @@
         "dotnet-ef"
       ],
       "rollForward": false
+    },
+    "strawberryshake.tools": {
+      "version": "16.6.2",
+      "commands": [
+        "dotnet-graphql"
+      ],
+      "rollForward": false
     }
   }
 }

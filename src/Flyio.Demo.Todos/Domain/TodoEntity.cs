@@ -13,8 +13,13 @@ public class TodoEntity : BaseEntity
 
     internal TodoEntity() { }
 
-    public static TodoEntity CreateNew(string name)
+    public static Result<TodoEntity> CreateNew(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return Result.Invalid(new ValidationError(nameof(name), "Name is required"));
+        }
+
         var entity = new TodoEntity
         {
             Id = TodoId.NewTodoId(),
@@ -24,17 +29,16 @@ public class TodoEntity : BaseEntity
         return entity;
     }
 
-    public Result SetDone()
+    public Result<TodoEntity> SetDone()
     {
         if (Done)
         {
-            //add validation
-            return Result.Error("This todo is already in Done state");
+            return Result.Conflict("This todo is already in Done state");
         }
 
         Done = true;
 
         RegisterDomainEvent(new TodoIsDoneEvent(Id));
-        return Result.Success();
+        return this;
     }
 }
