@@ -3,11 +3,11 @@ using Flyio.Demo.GraphQLService.Tests.Client;
 
 namespace Flyio.Demo.GraphQLService.Tests;
 
-public class MeUnauthorizedQueryTests : IClassFixture<CustomWebApplicationFactory>
+public class MeUnauthorizedQueryTests : IClassFixture<UnauthorizedWebApplicationFactory>
 {
     private readonly IDemoGraphQLClient _client;
 
-    public MeUnauthorizedQueryTests(CustomWebApplicationFactory factory)
+    public MeUnauthorizedQueryTests(UnauthorizedWebApplicationFactory factory)
     {
         _client = factory.CreateGraphqQLClient();
     }

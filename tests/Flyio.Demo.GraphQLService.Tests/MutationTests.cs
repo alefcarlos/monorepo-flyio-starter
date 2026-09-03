@@ -1,0 +1,30 @@
+using AwesomeAssertions;
+using Flyio.Demo.GraphQLService.Tests.Client;
+using Microsoft;
+
+namespace Flyio.Demo.GraphQLService.Tests;
+
+[Collection(nameof(AspireCollection))]
+public class MutationTests
+{
+    private readonly IDemoGraphQLClient _client;
+
+    public MutationTests(AspireFixture fixture)
+    {
+        _client = fixture.Factory.CreateGraphqQLClient();
+    }
+
+    [Fact]
+    public async Task AddTodo_ShouldBeOk()
+    {
+        //Arrange
+
+        //Act
+        var response = await _client.AddTodo.ExecuteAsync(nameof(AddTodo_ShouldBeOk), TestContext.Current.CancellationToken);
+
+        //Assert
+        response.Data.Should().NotBeNull();
+        response.Data.AddTodo.TodoResponse.Should().NotBeNull();
+        response.Data.AddTodo.TodoResponse.Name.Should().Be(nameof(AddTodo_ShouldBeOk));
+    }
+}

@@ -14,7 +14,8 @@ public static class HostApplicationBuilderExtensions
         {
             builder.Services.AddDbContext<ITodosDbContext, TodosDbContext>((provider, opt) => opt.UseNpgsql(provider.GetRequiredService<IConfiguration>().GetConnectionString("Default")));
             builder.EnrichNpgsqlDbContext<TodosDbContext>();
-
+            builder.Services.AddHostedService<MigrationDbTask>();
+            
             //Exemplo de policies
             builder.Services.AddAuthorizationBuilder()
                 .AddPolicy("todos_viewer", policy => policy.RequireRole("apiservice:viewer"))

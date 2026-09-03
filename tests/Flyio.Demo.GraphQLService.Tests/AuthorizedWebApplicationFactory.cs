@@ -11,37 +11,7 @@ using Microsoft.Extensions.Options;
 
 namespace Flyio.Demo.GraphQLService.Tests;
 
-public class CustomWebApplicationFactory : WebApplicationFactory<Program>
-{
-    protected override void ConfigureWebHost(IWebHostBuilder builder)
-    {
-        builder.ConfigureServices(services =>
-        {
-            // services.AddSingleton<IStockService, StockServiceFake>();
-        });
-    }
-
-    public IDemoGraphQLClient CreateGraphqQLClient()
-    {
-        var serviceCollection = new ServiceCollection();
-        serviceCollection
-            .AddDemoGraphQLClient()
-            .ConfigureHttpClient(client =>
-                {
-                    client.BaseAddress = Server.BaseAddress;
-                },
-                c =>
-                {
-                    c.ConfigurePrimaryHttpMessageHandler(() => Server.CreateHandler());
-                });
-
-        return serviceCollection
-            .BuildServiceProvider()
-            .GetRequiredService<IDemoGraphQLClient>();
-    }
-}
-
-public class AuthorizedWebApplicationFactory : WebApplicationFactory<Program>
+public class AuthorizedWebApplicationFactory : WebApplicationFactory<IGraphQLService>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

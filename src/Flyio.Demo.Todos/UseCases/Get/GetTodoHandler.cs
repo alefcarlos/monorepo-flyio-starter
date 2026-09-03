@@ -2,6 +2,7 @@ using Ardalis.Result;
 using Flyio.Demo.Todos.Domain;
 using Flyio.Demo.Todos.Infra;
 using Mediator;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flyio.Demo.Todos.UseCases.Get;
 
@@ -16,7 +17,7 @@ internal class GetTodoHandler : IQueryHandler<GetTodoQuery, Result<TodoEntity>>
 
     public async ValueTask<Result<TodoEntity>> Handle(GetTodoQuery query, CancellationToken cancellationToken)
     {
-        var entity = _dbContext.Todos.FirstOrDefault(x=>x.Id == query.Id);
+        var entity = await _dbContext.Todos.FirstOrDefaultAsync(x =>x.Id == query.Id, cancellationToken: cancellationToken);
 
         if (entity is null)
         {
