@@ -12,15 +12,13 @@ using Microsoft.Extensions.Options;
 
 namespace Flyio.Demo.GraphQLService.Tests;
 
-file class Stub : ISkipMigrations;
-
 public class AuthorizedWebApplicationFactory : WebApplicationFactory<IGraphQLService>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureTestServices(services =>
         {
-            services.AddSingleton<ISkipMigrations, Stub>();
+            services.AddSingleton<SkipMigrations>();
             services.Configure<AuthenticationOptions>(x => x.SchemeMap["Bearer"].HandlerType = typeof(ViewerAuthenticationHandler));
         });
     }

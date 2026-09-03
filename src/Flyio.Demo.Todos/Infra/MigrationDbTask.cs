@@ -18,7 +18,7 @@ public class MigrationDbTask : IHostedService
     {
         using var scope = _sp.CreateScope();
 
-        if (scope.ServiceProvider.GetService<ISkipMigrations>() is not null)
+        if (scope.ServiceProvider.GetService<SkipMigrations>() is not null)
         {
             return;
         }
@@ -40,4 +40,4 @@ file class TenantStub : ITenantGetter
     public string GetCurrentTenant() => "stub";
 }
 
-public interface ISkipMigrations;
+public sealed class SkipMigrations;

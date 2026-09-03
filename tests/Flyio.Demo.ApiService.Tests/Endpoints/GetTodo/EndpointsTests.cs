@@ -25,6 +25,7 @@ public class EndpointsTests : IClassFixture<WebApplicationFactory<Program>>
         {
             builder.ConfigureTestServices(services =>
             {
+                services.AddSingleton<SkipMigrations>();
                 services.Configure<AuthenticationOptions>(x => x.SchemeMap["Bearer"].HandlerType = typeof(ViewerAuthenticationHandler));
             });
         });

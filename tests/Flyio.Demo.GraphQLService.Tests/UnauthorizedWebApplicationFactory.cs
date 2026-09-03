@@ -6,15 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Flyio.Demo.GraphQLService.Tests;
 
-file class Stub : ISkipMigrations;
-
 public class UnauthorizedWebApplicationFactory : WebApplicationFactory<IGraphQLService>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
         {
-            services.AddSingleton<ISkipMigrations, Stub>();
+            services.AddSingleton<SkipMigrations>();
             // services.AddSingleton<IStockService, StockServiceFake>();
         });
     }
