@@ -1,11 +1,12 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <HotChocolateVersion>16.6.7</HotChocolateVersion>
   </PropertyGroup>
   <!-- Analyzers/Builds -->
   <ItemGroup>
-    <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15" />
-    <GlobalPackageReference Include="MinVer" Version="7.0.0" />
+    <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="18.7.23" />
+    <GlobalPackageReference Include="MinVer" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.1.7" />
@@ -15,23 +16,23 @@
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.0" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.0" />
     <PackageVersion Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.2.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.8" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.12" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
-    <PackageVersion Include="Scalar.AspNetCore.Microsoft" Version="2.16.20" />
+    <PackageVersion Include="Scalar.AspNetCore.Microsoft" Version="2.17.14" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.1.0-rc.1" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.1.0-rc.1" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.0" />
-    <PackageVersion Include="HotChocolate.AspNetCore" Version="16.6.2" />
-    <PackageVersion Include="HotChocolate.Data" Version="16.6.2" />
-    <PackageVersion Include="HotChocolate.AspNetCore.Authorization" Version="16.6.2" />
-    <PackageVersion Include="HotChocolate.Diagnostics" Version="16.6.2" />
-    <PackageVersion Include="HotChocolate.AspNetCore.CommandLine" Version="16.6.2" />
-    <PackageVersion Include="HotChocolate.Types.Analyzers" Version="16.6.2" />
+    <PackageVersion Include="HotChocolate.AspNetCore" Version="$(HotChocolateVersion)" />
+    <PackageVersion Include="HotChocolate.Data" Version="$(HotChocolateVersion)" />
+    <PackageVersion Include="HotChocolate.AspNetCore.Authorization" Version="$(HotChocolateVersion)" />
+    <PackageVersion Include="HotChocolate.Diagnostics" Version="$(HotChocolateVersion)" />
+    <PackageVersion Include="HotChocolate.AspNetCore.CommandLine" Version="$(HotChocolateVersion)" />
+    <PackageVersion Include="HotChocolate.Types.Analyzers" Version="$(HotChocolateVersion)" />
   </ItemGroup>
   <!-- Aspire -->
   <ItemGroup>

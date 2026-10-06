@@ -14,6 +14,7 @@ internal class CreateTodoHandler : ICommandHandler<CreateTodoCommand, Result<Tod
         _dbContext = dbContext;
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "VSTHRD103:Call async methods when in an async method", Justification = "<Pending>")]
     public async ValueTask<Result<TodoEntity>> Handle(CreateTodoCommand command, CancellationToken cancellationToken)
     {
         return await TodoEntity.CreateNew(command.Name)
