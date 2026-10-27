@@ -14,7 +14,8 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
         <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
-		<NuGetAuditMode>all</NuGetAuditMode>
+        <NuGetAuditMode>all</NuGetAuditMode>
+        <HotChocolateVersion>16.7.1</HotChocolateVersion>
     </PropertyGroup>
 
     <ItemGroup>
