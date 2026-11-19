@@ -1,5 +1,8 @@
 {
   "appHost": {
     "path": "src/Flyio.Demo.AppHost/Flyio.Demo.AppHost.csproj"
+  },
+  "sdk": {
+    "version": "17.0.0"
   }
 }
