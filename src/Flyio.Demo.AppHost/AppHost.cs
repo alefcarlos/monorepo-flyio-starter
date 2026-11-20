@@ -20,29 +20,29 @@ var postgres = builder.AddPostgres("postgres")
 
 var postgresdb = postgres.AddDatabase("Default");
 
-var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice")
+var apiService = builder.AddDotnetProject("apiservice", "../Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj")
     .WithReference(postgresdb)
     .WaitFor(postgresdb)
     .WaitFor(keycloak)
     .WithExplicitStart()
     .WithHttpHealthCheck("/health");
 
-var graphQLService = builder.AddProject<Projects.Flyio_Demo_GraphQLService>("graphqlservice")
+var graphQLService = builder.AddDotnetProject("graphqlservice", "../Flyio.Demo.GraphQLService/Flyio.Demo.GraphQLService.csproj")
     .WithReference(postgresdb)
     .WaitFor(postgresdb)
     .WithExplicitStart()
     .WithHttpHealthCheck("/health")
     ;
 
-builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
+builder.AddDotnetProject("webfrontend", "../Flyio.Demo.Web/Flyio.Demo.Web.csproj")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WithExplicitStart()
     .WaitFor(apiService);
 
-var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
-    .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
+// var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
+//     .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
 
 builder.AddTerraform("terraform", "../../terraform");
 
