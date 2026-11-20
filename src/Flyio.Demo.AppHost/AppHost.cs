@@ -1,3 +1,5 @@
+#pragma warning disable ASPIRERESOURCETRAITS001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+
 using Flyio.Demo.AppHost;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -12,38 +14,50 @@ var keycloak = builder
     .WithLifetime(ContainerLifetime.Persistent)
     .WithDataVolume()
     .WithExplicitStart()
+    .WithTags("Infra")
     ;
 
 var postgres = builder.AddPostgres("postgres")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithPgAdmin(pgAdmin => pgAdmin.WithLifetime(ContainerLifetime.Persistent));
+    .WithPgAdmin(pgAdmin => pgAdmin.WithLifetime(ContainerLifetime.Persistent))
+    .WithTags("Infra")
+    ;
 
 var postgresdb = postgres.AddDatabase("Default");
 
-var apiService = builder.AddProject<Projects.Flyio_Demo_ApiService>("apiservice")
+var apiService = builder.AddDotnetProject("apiservice", "../Flyio.Demo.ApiService/Flyio.Demo.ApiService.csproj")
     .WithReference(postgresdb)
     .WaitFor(postgresdb)
     .WaitFor(keycloak)
     .WithExplicitStart()
-    .WithHttpHealthCheck("/health");
+    .WithHttpHealthCheck("/health")
+    .WithTags("Backend")
+    ;
 
-var graphQLService = builder.AddProject<Projects.Flyio_Demo_GraphQLService>("graphqlservice")
+var graphQLService = builder.AddDotnetProject("graphqlservice", "../Flyio.Demo.GraphQLService/Flyio.Demo.GraphQLService.csproj")
     .WithReference(postgresdb)
     .WaitFor(postgresdb)
     .WithExplicitStart()
     .WithHttpHealthCheck("/health")
+    .WithTags("Backend")
     ;
 
-builder.AddProject<Projects.Flyio_Demo_Web>("webfrontend")
+builder.AddDotnetProject("webfrontend", "../Flyio.Demo.Web/Flyio.Demo.Web.csproj")
     .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
     .WithReference(apiService)
     .WithExplicitStart()
-    .WaitFor(apiService);
+    .WaitFor(apiService)
+    .WithTags("Frontend")
+    ;
 
 var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
-    .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
+    .WithMigrationsProject("../Flyio.Demo.Todos/Flyio.Demo.Todos.csproj")
+    .WithTags("Backend")
+    ;
 
-builder.AddTerraform("terraform", "../../terraform");
+builder.AddTerraform("terraform", "../../terraform")
+    .WithTags("Infra")
+    ;
 
 builder.Build().Run();

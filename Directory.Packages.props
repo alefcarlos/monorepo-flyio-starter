@@ -1,6 +1,7 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <HotChocolateVersion>16.7.6</HotChocolateVersion>
   </PropertyGroup>
   <!-- Analyzers/Builds -->
   <ItemGroup>
@@ -8,21 +9,23 @@
     <GlobalPackageReference Include="MinVer" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="1.1.7" />
-    <PackageVersion Include="AlefCarlos.AspNetCoreDefaults" Version="1.1.7" />
-    <PackageVersion Include="Aspire.Hosting.Docker" Version="13.6.4" />
-    <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="13.6.4-preview.1.26523.11" />
-    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="13.6.4" />
-    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="13.6.4" />
+    <PackageVersion Include="AlefCarlos.AspNetCore.WebApi" Version="11.0.0" />
+    <PackageVersion Include="AlefCarlos.AspNetCoreDefaults" Version="11.0.0" />
+    <PackageVersion Include="Aspire.Hosting.Docker" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.EntityFrameworkCore" Version="17.0.0-preview.1.26567.5" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Hosting.Dotnet" Version="17.0.0" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="17.0.0-preview.1.26567.5" />
     <PackageVersion Include="Duende.AccessTokenManagement.OpenIdConnect" Version="4.3.0" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.14" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.14" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.14">
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="11.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="11.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="11.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
-    <PackageVersion Include="Scalar.AspNetCore.Microsoft" Version="2.18.3" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="11.0.0" />
+    <PackageVersion Include="Scalar.AspNetCore.Microsoft" Version="3.1.1" />
     <PackageVersion Include="Mediator.Abstractions" Version="3.1.0-rc.1" />
     <PackageVersion Include="Mediator.SourceGenerator" Version="3.1.0-rc.1" />
     <PackageVersion Include="Ardalis.Result.FluentValidation" Version="10.1.0" />
@@ -35,6 +38,6 @@
   </ItemGroup>
   <!-- Aspire -->
   <ItemGroup>
-    <PackageVersion Include="Aspire.Hosting.Keycloak" Version="13.6.4-preview.1.26523.11" />
+    <PackageVersion Include="Aspire.Hosting.Keycloak" Version="17.0.0-preview.1.26567.5" />
   </ItemGroup>
 </Project>

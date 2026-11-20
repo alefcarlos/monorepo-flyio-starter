@@ -1,4 +1,4 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.6.4">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,17 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.Dotnet" />
     <PackageReference Include="Aspire.Hosting.Docker" />
     <PackageReference Include="Aspire.Hosting.EntityFrameworkCore" />
     <PackageReference Include="Aspire.Hosting.Keycloak" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Flyio.Demo.GraphQLService\Flyio.Demo.GraphQLService.csproj" />
-    <ProjectReference Include="..\Flyio.Demo.Web\Flyio.Demo.Web.csproj" />
-    <ProjectReference Include="..\Flyio.Demo.ApiService\Flyio.Demo.ApiService.csproj" />
-    <ProjectReference Include="..\Flyio.Demo.Todos\Flyio.Demo.Todos.csproj" />
   </ItemGroup>
 
 </Project>

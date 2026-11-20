@@ -1,7 +1,7 @@
 <Project>
 
     <PropertyGroup Label="General">
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <SolutionDir Condition=" '$(SolutionDir)' == '' OR '$(SolutionDir)' == '*Undefined if not building a solution or within Visual Studio*' ">$(MSBuildThisFileDirectory)</SolutionDir>
         <IsTestProject>$(MSBuildProjectName.EndsWith('.Tests'))</IsTestProject>
@@ -16,6 +16,7 @@
         <ContinuousIntegrationBuild Condition="'$(TF_BUILD)' == 'true'">true</ContinuousIntegrationBuild>
         <NuGetAuditMode>all</NuGetAuditMode>
         <HotChocolateVersion>16.7.1</HotChocolateVersion>
+        <Features>runtime-async=on</Features>
     </PropertyGroup>
 
     <ItemGroup>
