@@ -41,8 +41,8 @@ builder.AddDotnetProject("webfrontend", "../Flyio.Demo.Web/Flyio.Demo.Web.csproj
     .WithExplicitStart()
     .WaitFor(apiService);
 
-// var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
-//     .WithMigrationsProject<Projects.Flyio_Demo_Todos>();
+var todoMigrations = apiService.AddEFMigrations("todos-migrations", "Flyio.Demo.Todos.Infra.TodosDbContext")
+    .WithMigrationsProject("../Flyio.Demo.Todos/Flyio.Demo.Todos.csproj");
 
 builder.AddTerraform("terraform", "../../terraform");
 
